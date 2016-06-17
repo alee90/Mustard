@@ -2,45 +2,54 @@
 // HIGHEST LEVEL COMPONENT
 var LogInPage = React.createClass({
 	getInitialState: function() {
-		// I do a cookie check here just as a hacky bonus so if you refresh it still works
-		// This works for proof of concept but as you build out...it could be abused on prod but that's super bonus
 		var cookieCheck;
+		var loggedOutUser;
 		if(document.cookie) {
 			cookieCheck = true;
+			loggedOutUser = false;
 		} else {
 			cookieCheck = '';
+			loggedOutUser = true;
 		}
 		// so basically a first time user will have authenticatedUser set to ''
 		return {
 			// books = [],
 			authenticatedUser: cookieCheck,
+			loggedOutUser: loggedOutUser
 		};
 	},
 
 	// This is a function that the parent can call that will change the state when someone properly logs in and creates a cookie containing the jwt_token
 	changeLogin: function() {
 		this.setState({
-			authenticatedUser: true
+			authenticatedUser: true,
+			loggedOutUser: false
 		})
 	},
 
 	// Render 
 	render: function() {
 		console.log('authenticatedUser: ', this.state.authenticatedUser);
-		console.log('---------------------');
-		console.log('cookie:', document.cookie);
+		// console.log('---------------------');
+		// console.log('cookie:', document.cookie);
 
 		// If logged in state verified, show a different component
 		if(this.state.authenticatedUser === true) {
 			return (
+				<div>
 				<App />
+				<Logout logOutCheck={this.state.loggedOutUser}/>
+				</div>
 			)
 		} else {
 			// If state.authenticatedUser is not true, render the login component
 			// 1. Pass the state of the parent as a prop called initialLoginCheck to the child
 			// 2. Pass the callback function as a prop called onChange, remember, this function will tell the parent to update the state
 			return (
+				<div>
 				<LoginForm initialLoginCheck={this.state.authenticatedUser} onChange={this.changeLogin}/>
+				<SignUpForm />
+				</div>
 			)
 		}
 	}
@@ -70,7 +79,7 @@ var LoginForm = React.createClass({
 	loginAJAX: function(username, password) {
 		$.ajax({
 			url: '/auth',
-			method: "POST",
+			method: 'POST',
 			data: {
 				username: username,
 				password: password
@@ -88,16 +97,16 @@ var LoginForm = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className="login-form" >
+			<div className='login-form' >
 				<h3>Please Login</h3>
 				<form onSubmit={this.handleSubmit}>
-					<label htmlFor="username">Username</label>
-					<input className="username-login-form" type="text" value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
+					<label htmlFor='username'>Username</label>
+					<input className='username-login-form' type='text' value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
 					<br/>
-					<label htmlFor="password">Password</label>
-					<input className="password-login-form" type="text" value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
+					<label htmlFor='password'>Password</label>
+					<input className='password-login-form' type='text' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
 					<br/>
-					<input type="submit"/>
+					<input type='submit'/>
 				</form>
 			</div>
 		)
@@ -127,7 +136,7 @@ var SignUpForm = React.createClass({
 	signupAJAX: function(username, password, email) {
 		$.ajax({
 			url: '/users',
-			method: "POST",
+			method: 'POST',
 			data: {
 				username: username,
 				password: password,
@@ -146,19 +155,19 @@ var SignUpForm = React.createClass({
 	},
 	render: function() {
 		return (
-			<div className="signup-form" >
+			<div className='signup-form' >
 				<h3>Please Sign Up</h3>
 				<form onSubmit={this.handleSubmit}>
-					<label htmlFor="username">Username</label>
-					<input className="username-signup-form" type="text" value={this.state.username} onChange={this.handleSignUpChange.bind(this, 'username')}/>
+					<label htmlFor='username'>Username</label>
+					<input className='username-signup-form' type='text' value={this.state.username} onChange={this.handleSignUpChange.bind(this, 'username')}/>
 					<br/>
-					<label htmlFor="password">Password</label>
-					<input className="password-signup-form" type="password" value={this.state.password} onChange={this.handleSignUpChange.bind(this, 'password')}/>
+					<label htmlFor='password'>Password</label>
+					<input className='password-signup-form' type='password' value={this.state.password} onChange={this.handleSignUpChange.bind(this, 'password')}/>
 					<br/>
-					<label htmlFor="email">Email</label>
-					<input className="email-signup-form" type="text" value={this.state.email} onChange={this.handleSignUpChange.bind(this, 'email')}/>
+					<label htmlFor='email'>Email</label>
+					<input className='email-signup-form' type='text' value={this.state.email} onChange={this.handleSignUpChange.bind(this, 'email')}/>
 					<br/>
-					<input type="submit"/>
+					<input type='submit'/>
 				</form>
 			</div>
 		)
@@ -166,14 +175,22 @@ var SignUpForm = React.createClass({
 
 })
 
-// Create SignUpComponent
-// - Add a link to the loginform component
-// 	- you can either kick back logic to the parent or even make signup a child of the login
-// 	- it's all the same concept. pitch and catch
-// 	- parents send states as props to kids along with a callback to update themself
-// 	- kids replicate their own state with the props they got
-// 	- kids change a state that triggers the callback
-// 	- MEOW!
+var Logout = React.createClass({
+    handleClick: function() {
+        console.log('working button');
+        Cookies.remove("jwt_token");
+        location.reload();
+
+    },
+    render: function() {
+        return(
+            <div>
+                <button className='logout' onClick={this.handleClick}>LOGOUT</button>
+            </div>
+        )
+
+    }
+})
 
 //AUTH0 COMPONENT
 var App = React.createClass({
@@ -248,5 +265,5 @@ var LoggedIn = React.createClass({
 	}
 })
 
-ReactDOM.render(<div><LogInPage/><SignUpForm /></div>
+ReactDOM.render(<div><LogInPage/></div>
 , document.getElementById('main-container'));
