@@ -179,7 +179,7 @@ var Logout = React.createClass({
     handleClick: function() {
         console.log('working button');
         Cookies.remove("jwt_token");
-        location.reload();
+        window.location = '/';
 
     },
     render: function() {
@@ -252,11 +252,16 @@ var LoggedIn = React.createClass({
 			this.setState({profile: profile});
 		}.bind(this));
 	},
+
 	render: function(){
 		if (this.state.profile){
-			return(
+			console.log(this.state.profile);
+		console.log(this.state.profile.identities[0].access_token);
+			return(<div>
 				<h2>Welcome {this.state.profile.nickname}</h2>
-				);
+				</div>
+
+								);
 		} else {
 			return(
 			<div className='loading'>Loading</div>
@@ -265,5 +270,30 @@ var LoggedIn = React.createClass({
 	}
 })
 
+// var APICalls = React.createClass({
+// 	getInitialState: function(){
+// 		return {poems: '', fork:''}
+// 	},
+// 	getPoemState: function(poem){
+// 		this.setState({poems: poem})
+// 	}
+// 	getPoems : function(){
+// 		$.ajax({
+// 			method: 'GET',
+// 			url: 'http://shakeitspeare.com/api/poem',
+// 		}).done(function(x){
+// 			console.log(x);
+// 			getPoemState(x);
+// 			})
+// 	},	
+// 	getForks: function(){
+// 		$.ajax({
+// 			method: 'GET',
+// 			url: '/users/forks'
+// 		}).done(function(x){
+// 			console.log(x);
+// 		})
+// 	},
+// })
 ReactDOM.render(<div><LogInPage/></div>
 , document.getElementById('main-container'));
