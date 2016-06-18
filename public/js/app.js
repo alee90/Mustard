@@ -1,5 +1,3 @@
-
-
 ///Main component
 
 var App = React.createClass({
