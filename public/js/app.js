@@ -1,5 +1,4 @@
 
-
 ///Main component
 
 var App = React.createClass({
@@ -7,7 +6,7 @@ var App = React.createClass({
     return {
         weatherAPI: null,
         nytAPI: null,
-        apithree: null,
+        imgurAPI: null,
         choose: false
          };
   },
@@ -17,19 +16,21 @@ var App = React.createClass({
     })
   },
   handleWeatherAPI: function(data) {
-    this.getWeatherAPI();
+    // this.getWeatherAPI();
     this.setState({
       weatherAPI: data
     })
   },
-  handlenytAPI: function() {
+  handlenytAPI: function(data) {
+    // this.getnytAPI();
     this.setState({
-      nytAPI: this.getnytAPI
+      nytAPI: data
     })
   },
-  handleAPIthree: function() {
-    this.setState({
-      apithree: this.getAPIthree
+  handleimgurAPI: function(x) {
+    // this.getimgurAPI();
+     this.setState({
+      imgurAPI: x
     })
   },
   getWeatherAPI:function(data) {
@@ -44,39 +45,54 @@ var App = React.createClass({
           }
     })
   },
-  getnytAPI:function() {
-    return{ 
-      nytAPI:"data"
-    }
+  getnytAPI:function(data) {
+    $.ajax({
+        url: '/test',
+        method: 'GET',
+        success: function(data) {
+          this.handlenytAPI(data);
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }
+    })
   },
-  getAPIthree:function() {
-    return{ 
-      apithree:"data"
-    }
+  getimgurAPI:function() {
+    $.ajax({
+        url: '/test/pics/forks',
+        method: 'GET',
+        success: function(data) { 
+          var x = data.data;
+          this.handleimgurAPI(x);
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }
+    })
 
   },
 
   // Render 
   render: function() {
     console.log('---------------------');
-    if(this.state.choose === false) {
+    if(this.state.choose == false) {
       return (
         <Toggle 
-        handleWeatherAPI={this.handleWeatherAPI}
-        handlenytAPI={this.handlenytAPI}
-        handleAPIthree={this.handleAPIthree}
+        handleWeatherAPI={this.getWeatherAPI}
+        handlenytAPI={this.getnytAPI}
+        handleimgurAPI={this.getimgurAPI}
         handleChoose={this.handleChoose} />
         )
     } else {
       return (
         <div>
           <ApiRender
-            WeatherAPIChoose={this.state.WeatherAPI}
+            WeatherAPIChoose={this.state.weatherAPI}
             nytAPIChoose={this.state.nytAPI}
-            apiThreeChoose={this.state.apithree}
+            imgurAPIChoose={this.state.imgurAPI}
             WeatherAPIData={this.getWeatherAPI}
             nytAPIData={this.getnytAPI}
-            ApiThreeData={this.getAPIthree}
+            imgurAPIData={this.getimgurAPI}
             ApiChoose={this.state}
           />
         </div>
@@ -93,17 +109,17 @@ var Toggle = React.createClass({
       <div>
             <div 
              className="api-one"
-             onClick={this.props.handleWeatherAPI}> API One
+             onClick={this.props.handleWeatherAPI}> Weather
              </div>
 
             <div 
              className="api-two"
-             onClick={this.props.handlenytAPI}> API Two
+             onClick={this.props.handlenytAPI}> NYT 
              </div>
 
             <div 
              className="api-three"
-             onClick={this.props.handleAPIthree}> API Three 
+             onClick={this.props.handleimgurAPI}> IMGUR
              </div>
 
              <div 
@@ -135,7 +151,7 @@ var ApiRender = React.createClass({
   render: function(){ 
   console.log(this.props.WeatherAPIData);
   console.log(this.props.nytAPIData);
-  console.log(this.props.ApiThreeData);
+  console.log(this.props.imgurAPIData);
   return(
     <h1>Works</h1>
     )

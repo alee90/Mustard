@@ -4,7 +4,6 @@ var passport = require('../config/passport.js');
 var User = require('../models/users.js');
 var Notes = require('../models/notes.js');
 var request = require('request');
-console.log(clientID);
 
 
 
@@ -24,9 +23,6 @@ router.post('/', function(req, res) {
 // !!======== AUTH ========!!\\
 
 router.use(passport.authenticate('jwt', { session: false }));
-
-
-	
 
 
 module.exports = router;
