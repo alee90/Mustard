@@ -23,6 +23,6 @@ router.post('/', function(req, res) {
 
 //!!======== AUTH ========!!\\
 
-router.use(passport.authenticate('jwt', { session: false }));
+// router.use(passport.authenticate('jwt', { session: false }));
 
 module.exports = router;
