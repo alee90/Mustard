@@ -3,107 +3,144 @@
 ///Main component
 
 var App = React.createClass({
-	getInitialState: function() {
-		return {
-	    	apione: false,
-	    	apitwo: false,
-        apithree: false,
-	    	choose: false
-	       };
-	},
+  getInitialState: function() {
+    return {
+        weatherAPI: null,
+        nytAPI: null,
+        apithree: null,
+        choose: false
+         };
+  },
   handleChoose: function() {
     this.setState({
       choose: true
     })
   },
-  handleAPIone: function() {
+  handleWeatherAPI: function(data) {
+    this.getWeatherAPI();
     this.setState({
-      apione: true
+      weatherAPI: data
     })
   },
-  handleAPItwo: function() {
+  handlenytAPI: function() {
     this.setState({
-      apitwo: true
+      nytAPI: this.getnytAPI
     })
   },
   handleAPIthree: function() {
     this.setState({
-      apithree: true
+      apithree: this.getAPIthree
     })
   },
-  getWeatherData: function(){
+  getWeatherAPI:function(data) {
     $.ajax({
           url: "/test/weather/",
         method: 'GET',
         success: function(data) {
-              console.log(data);
-        },
+          this.handleWeatherAPI(data);
+      }.bind(this),
         error: function(xhr, status, err) {
             console.error(status, err.toString());
           }
     })
-},
-	getAPItwo:function() {
+  },
+  getnytAPI:function() {
+    return{ 
+      nytAPI:"data"
+    }
+  },
+  getAPIthree:function() {
+    return{ 
+      apithree:"data"
+    }
 
-	},
+  },
 
-	// Render 
-	render: function() {
-		console.log('---------------------');
-		if(this.state.choose === false) {
-			return (
+  // Render 
+  render: function() {
+    console.log('---------------------');
+    if(this.state.choose === false) {
+      return (
+        <Toggle 
+        handleWeatherAPI={this.handleWeatherAPI}
+        handlenytAPI={this.handlenytAPI}
+        handleAPIthree={this.handleAPIthree}
+        handleChoose={this.handleChoose} />
+        )
+    } else {
+      return (
         <div>
-            <div 
-             className="api-one"
-             onClick={this.handleAPIone, this.getWeatherData}> API One
-             </div>
-
-            <div 
-             className="api-two"
-             onClick={this.handleAPItwo}> API Two
-             </div>
-
-            <div 
-             className="api-three"
-             onClick={this.handleAPIthree}> API Three 
-             </div>
-
-    				 <div 
-             className="api-choose"
-             onClick={this.handleChoose}> Choose
-             </div>
-
-        </div> 
-				)
-		} else {
-			return (
-				<div>
-					<ApiRender />
-				</div>
-			)
-		}
-	}
+          <ApiRender
+            WeatherAPIChoose={this.state.WeatherAPI}
+            nytAPIChoose={this.state.nytAPI}
+            apiThreeChoose={this.state.apithree}
+            WeatherAPIData={this.getWeatherAPI}
+            nytAPIData={this.getnytAPI}
+            ApiThreeData={this.getAPIthree}
+            ApiChoose={this.state}
+          />
+        </div>
+      )
+    }
+  }
 });
 
 
 
+var Toggle = React.createClass({
+  render: function(){
+    return(
+      <div>
+            <div 
+             className="api-one"
+             onClick={this.props.handleWeatherAPI}> API One
+             </div>
 
+            <div 
+             className="api-two"
+             onClick={this.props.handlenytAPI}> API Two
+             </div>
+
+            <div 
+             className="api-three"
+             onClick={this.props.handleAPIthree}> API Three 
+             </div>
+
+             <div 
+             className="api-choose"
+             onClick={this.props.handleChoose}> Choose
+             </div>
+
+        </div> 
+        )
+  }
+
+})
 
 
 
 
 
 var ApiRender = React.createClass({
+  handleWeatherAPIData:function(){
+    var Data = this.props.WeatherAPIData;
 
+  },
+  handlenytAPIData:function(){
 
+  },
+  handlenytAPIData:function(){
+
+  },
   render: function(){ 
+  console.log(this.props.WeatherAPIData);
+  console.log(this.props.nytAPIData);
+  console.log(this.props.ApiThreeData);
   return(
-    <div>
-    API's HAVE BEEN CHOOSEN
-    </div>
+    <h1>Works</h1>
     )
 
-}
+  }
 })
 
 
