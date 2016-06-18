@@ -37,7 +37,6 @@ app.use('/users', usersController);
 var authController = require('./controllers/auth.js')
 app.use('/auth', authController);
 
-
 var testController = require('./controllers/test.js')
 app.use('/test', testController);
 
