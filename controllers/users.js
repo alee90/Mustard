@@ -6,8 +6,6 @@ var passport = require('../config/passport.js');
 var User = require('../models/users.js');
 var Notes = require('../models/notes.js');
 var request = require('request');
-// console.log(clientID);
-
 
 // !!======== NO AUTH ========!!\\
 
@@ -88,5 +86,6 @@ router.delete('/:id/notes/:note_id', function(req,res){
 		console.log('!!===== NOTE DELETED!! =====!!')
 	});
 });
+
 
 module.exports = router;

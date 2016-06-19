@@ -221,19 +221,22 @@ var App = React.createClass({
   handleWeatherAPI: function(data) {
     // this.getWeatherAPI();
     this.setState({
-      weatherAPI: data
+      weatherAPI: data,
+      choose: true
     })
   },
   handlenytAPI: function(data) {
     // this.getnytAPI();
     this.setState({
-      nytAPI: data
+      nytAPI: data,
+      choose: true
     })
   },
   handleimgurAPI: function(x) {
     // this.getimgurAPI();
      this.setState({
-      imgurAPI: x
+      imgurAPI: x,
+      choose: true
     })
   },
   getWeatherAPI:function(data) {
@@ -241,7 +244,6 @@ var App = React.createClass({
           url: "/test/weather/",
         method: 'GET',
         success: function(data) {
-        	console.log(data);
           this.handleWeatherAPI(data);
       }.bind(this),
         error: function(xhr, status, err) {
@@ -291,7 +293,6 @@ var App = React.createClass({
       return (
         <div>
           <ApiRender
-            WeatherAPIChoose={this.state.weatherAPI}
             weatherAPIChoose={this.state.weatherAPI}
             nytAPIChoose={this.state.nytAPI}
             imgurAPIChoose={this.state.imgurAPI}
@@ -301,6 +302,7 @@ var App = React.createClass({
             ApiChoose={this.state}
             Home={this.homeButton}
           />
+        <NotesDisplayer />
         </div>
       )
     }
@@ -312,32 +314,122 @@ var App = React.createClass({
 var Toggle = React.createClass({
   render: function(){
     return(
-      <div>
+      <div className="toggle-page">
             <div 
              className="api-one"
-             onClick={this.props.handleWeatherAPI}> Weather
+             onClick={this.props.handleWeatherAPI}> 
+             <button className="clicked"> 
+             <img src= "https://cdn.downdetector.com/static/uploads/c/300/f5071/weather_channel.png" /> 
+             </button>
+
              </div>
 
             <div 
              className="api-two"
-             onClick={this.props.handlenytAPI}> NYT 
+             onClick={this.props.handlenytAPI}> 
+             <button className="clicked">
+             <img src= "http://14575-presscdn-0-73.pagely.netdna-cdn.com/wp-content/uploads/2015/11/New-York-Times-logo.jpg" />
+             </button>
              </div>
 
             <div 
              className="api-three"
-             onClick={this.props.handleimgurAPI}> IMGUR
+             onClick={this.props.handleimgurAPI}>
+             <button className="clicked">
+             <img src= "http://assets.materialup.com/uploads/a7ab3d40-0001-4ca9-b37d-cf9a6eff969c/teaser.png" />
+             </button>
              </div>
 
-             <div 
-             className="api-choose"
-             onClick={this.props.handleChoose}> Choose
+             <div className="notes-button"
+                  onClick={this.props.handleChoose}>
+               <button className="cliced">
+               <img src ="http://www.t-gaap.com/sites/www.t-gaap.com/assets/images/notes.jpg?1349118446" />
+               </button>   
              </div>
 
         </div> 
+
         )
   }
 
 })
+
+var NotesForm = React.createClass(
+  {
+    getInitialState: function(){
+        return {
+              notes:''
+          };
+    },
+    handleNoteChange: function(e){
+          console.log(e.target.value);
+          this.setState({notes: e.target.value});
+    },
+    handleSubmit: function(e){
+        console.log('!!==== NOTES SUBMISSION ====!!');
+        e.preventDefault();
+        this.saveAJAX();
+        console.log(this.state);
+        this.props.onSubmit({notes: this.state.notes.trim()});
+        this.setState({notes: ''});
+    },
+    saveAJAX: function(e){
+        console.log('!!==== NOTES AJAX ====!!');
+        $.ajax({
+            method: 'GET',
+            url: '/test/testroute'
+        }).done(function(){
+            console.log('yay');
+        })
+    },
+    render: function(){
+        return(
+            <form 
+                className="notesForm" 
+                onSubmit={this.handleSubmit} 
+                >
+            <input 
+                type="text"
+                placeholder="To do?"
+                value={this.state.notes}
+                onChange={this.handleNoteChange}
+                />
+            <input
+                type="submit" 
+                value="Add!"
+                />
+            </form>);
+        }
+    }
+);
+
+//APPEND NOTES
+var NotesDisplayer = React.createClass({
+    getInitialState: function(){
+        return {totalNotes: []};
+    },
+    addNote(note){
+        var createNotes = this.state.totalNotes.concat();
+        createNotes.push(note);
+        this.setState({totalNotes: createNotes});
+    },
+    render: function(){
+        var displayNote = this.state.totalNotes.map(function(note){
+        return(
+            <div className="notez">
+                <h3>{note.notes}</h3>
+            </div>
+          );
+    });
+    return(
+        <div>
+            <NotesForm onSubmit={this.addNote}/>
+            {displayNote}
+        </div>
+        );
+    }
+});
+
 
 var ApiRender = React.createClass({
   render: function(){ 
@@ -345,19 +437,25 @@ var ApiRender = React.createClass({
   console.log(this.props.nytAPIData);
   console.log(this.props.imgurAPIData);
   return(
+
    <div>
      <button onClick={this.props.Home}> Home</button> 
+  
+
+    <div>
       <Weather weatherdata={this.props.weatherAPIChoose} />
       <NYTimes nytdata={this.props.nytAPIChoose} />
       <Imgur imgurdata={this.props.imgurAPIChoose}/>
     </div>  
+    </div>
     )
 
   }
 })
 
+
 var Weather = React.createClass({
-    render:function(){
+  render:function(){
     var data = this.props.weatherdata;
     if(this.props.weatherdata === null){
     return(
