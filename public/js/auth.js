@@ -192,6 +192,7 @@ var Logout = React.createClass({
     }
 })
 
+<<<<<<< HEAD
 //AUTH0 COMPONENT
 // var App = React.createClass({
 // 	componentWillMount: function() {
@@ -269,6 +270,345 @@ var Logout = React.createClass({
 // 	}
 // 	}
 // })
+=======
+/
+
+///Main component
+
+var App = React.createClass({
+  getInitialState: function() {
+    return {
+        weatherAPI: null,
+        nytAPI: null,
+        imgurAPI: null,
+        choose: false
+         };
+  },
+  homeButton: function(){
+    this.setState({
+      weatherAPI: null,
+        nytAPI: null,
+        imgurAPI: null,
+        choose: false
+    })
+  },
+  handleChoose: function() {
+    this.setState({
+      choose: true
+    })
+  },
+  handleWeatherAPI: function(data) {
+    // this.getWeatherAPI();
+    this.setState({
+      weatherAPI: data
+    })
+  },
+  handlenytAPI: function(data) {
+    // this.getnytAPI();
+    this.setState({
+      nytAPI: data
+    })
+  },
+  handleimgurAPI: function(x) {
+    // this.getimgurAPI();
+     this.setState({
+      imgurAPI: x
+    })
+  },
+  getWeatherAPI:function(data) {
+    $.ajax({
+          url: "/test/weather/",
+        method: 'GET',
+        success: function(data) {
+          this.handleWeatherAPI(data);
+      }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }
+    })
+  },
+  getnytAPI:function(data) {
+    $.ajax({
+        url: '/test',
+        method: 'GET',
+        success: function(data) {
+          this.handlenytAPI(data);
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }
+    })
+  },
+  getimgurAPI:function() {
+    $.ajax({
+        url: '/test/pics/forks',
+        method: 'GET',
+        success: function(data) { 
+          var x = data.data;
+          this.handleimgurAPI(x);
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }
+    })
+
+  },
+
+  // Render 
+  render: function() {
+    console.log('---------------------');
+    if(this.state.choose == false) {
+      return (
+        <Toggle 
+        handleWeatherAPI={this.getWeatherAPI}
+        handlenytAPI={this.getnytAPI}
+        handleimgurAPI={this.getimgurAPI}
+        handleChoose={this.handleChoose} />
+        )
+    } else {
+      return (
+        <div>
+          <ApiRender
+            weatherAPIChoose={this.state.weatherAPI}
+            nytAPIChoose={this.state.nytAPI}
+            imgurAPIChoose={this.state.imgurAPI}
+            WeatherAPIData={this.getWeatherAPI}
+            nytAPIData={this.getnytAPI}
+            imgurAPIData={this.getimgurAPI}
+            ApiChoose={this.state}
+            Home={this.homeButton}
+          />
+        </div>
+      )
+    }
+  }
+});
+
+
+
+var Toggle = React.createClass({
+  render: function(){
+    return(
+      <div>
+            <div 
+             className="api-one"
+             onClick={this.props.handleWeatherAPI}> Weather
+             </div>
+
+            <div 
+             className="api-two"
+             onClick={this.props.handlenytAPI}> NYT 
+             </div>
+
+            <div 
+             className="api-three"
+             onClick={this.props.handleimgurAPI}> IMGUR
+             </div>
+
+             <div 
+             className="api-choose"
+             onClick={this.props.handleChoose}> Choose
+             </div>
+
+        </div> 
+        )
+  }
+
+})
+
+
+
+
+var ApiRender = React.createClass({
+  render: function(){ 
+  console.log(this.props.WeatherAPIData);
+  console.log(this.props.nytAPIData);
+  console.log(this.props.imgurAPIData);
+  return(
+
+   <div>
+     <button onClick={this.props.Home}> Home</button> 
+  
+
+    <div>
+      <Weather weatherdata={this.props.weatherAPIChoose} />
+      <NYTimes nytdata={this.props.nytAPIChoose} />
+      <Imgur imgurdata={this.props.imgurAPIChoose}/>
+    </div>  
+    </div>
+    )
+
+  }
+})
+>>>>>>> c4f47bcbcf37040008941a61772777484c1b1e7c
+
+
+var Weather = React.createClass({
+  render:function(){
+    var data = this.props.weatherdata;
+    if(this.props.weatherdata === null){
+    return(
+      null
+      )
+  }else {
+    return(
+      <h1> Weather API CHosen </h1>
+      )
+  }
+  }
+
+})
+
+var Display = React.createClass({
+  render: function(){ 
+    console.log(this.props)
+    return( 
+      <div zip={this.props.zip}>
+        <h1>{this.props.name}</h1>
+        <h2>{this.props.temp}</h2>
+        <h2>{this.props.desc}</h2>
+        <h3>Min</h3>
+        <h4>{this.props.min}</h4>
+        <h3>Max</h3>
+        <h4>{this.props.max}</h4>
+      </div>
+    );
+  }
+});
+
+
+
+
+var NYTimes = React.createClass({
+  getInitialState:function(){
+    return{
+      storyone: null,
+      urlone: " ",
+      storytwo: null,
+      urltwo: " ",
+      storythree: null,
+      urlthree: " ",
+      storyfour: null,
+      urlfour: " ",
+      storyfive: null,
+      urlfive: " "
+
+    }
+  },
+  handleStoryone: function() {
+    var abstractone = this.props.nytdata.results[0].abstract;
+    var URlone = this.props.nytdata.results[0].short_url;
+    this.setState({
+      storyone: abstractone,
+      urlone: URlone
+    })
+  },
+   handleStorytwo: function() {
+    var abstracttwo = this.props.nytdata.results[1].abstract;
+    var URltwo = this.props.nytdata.results[1].short_url;
+    this.setState({
+      storytwo: abstracttwo,
+      urltwo: URltwo
+    })
+  },
+  handleStorythree: function() {
+    var abstractthree = this.props.nytdata.results[2].abstract;
+    var URlthree = this.props.nytdata.results[2].short_url;
+    this.setState({
+      storythree: abstractthree,
+      urlthree: URlthree
+    })
+  },
+  handleStoryfour: function() {
+    var abstractfour = this.props.nytdata.results[3].abstract;
+    var URlfour = this.props.nytdata.results[3].short_url;
+    this.setState({
+      storyfour: abstractfour,
+      urlfour: URlfour
+    })
+  },
+  handleStoryfive: function() {
+    var abstractfive = this.props.nytdata.results[4].abstract;
+    var URlfive = this.props.nytdata.results[4].short_url;
+    this.setState({
+      storyfive: abstractfive,
+      urlfive: URlfive
+    })
+  },
+  render:function(){
+      if(this.props.nytdata === null){
+    return(
+      null
+      )
+  }else {
+    return(
+      <div>
+        <h1>NYT API Chosen</h1>
+        <div onClick={this.handleStoryone}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[0].title}</h2>
+        <h4>{this.state.storyone}</h4>
+        <a href ={this.state.urlone}>{this.state.urlone}</a>
+        </div>
+
+         <div onClick={this.handleStorytwo}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[1].title}</h2>
+        <h4>{this.state.storytwo}</h4>
+        <a href ={this.state.urltwo}>{this.state.urltwo}</a>
+        </div>
+
+         <div onClick={this.handleStorythree}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[2].title}</h2>
+          <h4>{this.state.storythree}</h4>
+          <a href ={this.state.urlthree}>{this.state.urlthree}</a>
+        </div>
+
+         <div onClick={this.handleStoryfour}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[3].title}</h2>
+          <h4>{this.state.storyfour}</h4>
+          <a href ={this.state.urlfour}>{this.state.urlfour}</a>
+        </div>
+
+         <div onClick={this.handleStoryfive}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[4].title}</h2>
+          <h4>{this.state.storyfive}</h4>
+          <a href ={this.state.urlfive}>{this.state.urlfive}</a>
+        </div>
+        
+      </div>  
+      )
+  }
+  }
+
+})
+
+var Imgur = React.createClass({
+
+  render:function(){
+      if(this.props.imgurdata === null){
+        // var x = {this.props.imgurdata[0].link}
+    return(
+      null
+      )
+  }else {
+    return(
+      <div>
+        <img src={this.props.imgurdata[1].link}/>
+        <img src={this.props.imgurdata[2].link}/>
+        <img src={this.props.imgurdata[3].link}/>
+        <img src={this.props.imgurdata[4].link}/>
+        <img src={this.props.imgurdata[5].link}/>
+        <img src={this.props.imgurdata[6].link}/>
+      </div>
+      )
+  }
+  }
+
+})
+
+// ReactDOM.render(<App />, document.getElementById('main-container'));
+
+
+
 
 // var APICalls = React.createClass({
 // 	getInitialState: function(){

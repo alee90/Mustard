@@ -6,9 +6,10 @@ var Notes = require('../models/notes.js');
 var request = require('request');
 // console.log(clientID);
 
+console.log(process.env.JWT_SECRET);
 
 
-//!!======== NO AUTH ========!!\\
+// !!======== NO AUTH ========!!\\
 
 // CREATE A NEW USER
 router.post('/', function(req, res) {
@@ -21,7 +22,7 @@ router.post('/', function(req, res) {
 	});
 });
 
-//!!======== AUTH ========!!\\
+// !!======== AUTH ========!!\\
 
 router.use(passport.authenticate('jwt', { session: false }));
 

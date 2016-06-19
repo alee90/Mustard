@@ -1,167 +1,77 @@
+// /AUTH0 COMPONENT
+// var App = React.createClass({
+//  componentWillMount: function() {
+//        this.lock = new Auth0Lock('ayXZtD76COwoeUKF8xX1IoqXQY8mNZq0', 'mustard.auth0.com');
+//        this.setState({idToken: this.getIdToken()});
+//    },
+//    createLock: function(){
+//      this.lock = new Auth0Lock(this.props.clientId, this.props.domain);
+//    },
+//    getIdToken: function(){
+//      var idToken = localStorage.getItem('id_token');
+//      var authHash = this.lock.parseHash(window.location.hash);
+//      if(!idToken && authHash){
+//        if (authHash.id_token){
+//          idToken = authHash.id_token;
+//          localStorage.setItem('id_token', authHash.id_token);
+//        }
+//        if(authHash.error){
+//          console.log('errror', authHash);
+//        }
+//      }
+//      return idToken;
+//    },
+//    render: function() {
+//      if(this.state.idToken){
+//        return(<LoggedIn lock={this.lock} idToken={this.state.idToken} />);
+//      } else {
+//      return (<Home lock={this.lock} />);
+//      }
+//  }
+// });
 
-///Main component
+// var Home = React.createClass({
+//  showLock: function(){
+//    this.props.lock.show();
+//  },
+//  render: function(){
+//    return(
+//      <div className='login-box'>
+//        <a onClick={this.showLock}>Sign In!</a>
+//      </div>)
+//  }
+// })
 
-var App = React.createClass({
-  getInitialState: function() {
-    return {
-        weatherAPI: null,
-        nytAPI: null,
-        imgurAPI: null,
-        choose: false
-         };
-  },
-  handleChoose: function() {
-    this.setState({
-      choose: true
-    })
-  },
-  handleWeatherAPI: function(data) {
-    // this.getWeatherAPI();
-    this.setState({
-      weatherAPI: data
-    })
-  },
-  handlenytAPI: function(data) {
-    // this.getnytAPI();
-    this.setState({
-      nytAPI: data
-    })
-  },
-  handleimgurAPI: function(x) {
-    // this.getimgurAPI();
-     this.setState({
-      imgurAPI: x
-    })
-  },
-  getWeatherAPI:function(data) {
-    $.ajax({
-          url: "/test/weather/",
-        method: 'GET',
-        success: function(data) {
-          this.handleWeatherAPI(data);
-      }.bind(this),
-        error: function(xhr, status, err) {
-            console.error(status, err.toString());
-          }
-    })
-  },
-  getnytAPI:function(data) {
-    $.ajax({
-        url: '/test',
-        method: 'GET',
-        success: function(data) {
-          this.handlenytAPI(data);
-        }.bind(this),
-        error: function(xhr, status, err) {
-            console.error(status, err.toString());
-          }
-    })
-  },
-  getimgurAPI:function() {
-    $.ajax({
-        url: '/test/pics/forks',
-        method: 'GET',
-        success: function(data) { 
-          var x = data.data;
-          this.handleimgurAPI(x);
-        }.bind(this),
-        error: function(xhr, status, err) {
-            console.error(status, err.toString());
-          }
-    })
+// var LoggedIn = React.createClass({
+//  getInitialState: function(){
+//    return{
+//      profile: null
+//    }
+//  },
+//  componentDidMount: function(){
+//    //RETRIEVE PROFILE
+//    this.props.lock.getProfile(this.props.idToken, function(err,profile){
+//      if(err){
+//        console.log('error loading profile', err)
+//        return;
+//      } 
+//      this.setState({profile: profile});
+//    }.bind(this));
+//  },
 
-  },
+//  render: function(){
+//    if (this.state.profile){
+//      console.log(this.state.profile);
+//    console.log(this.state.profile.identities[0].access_token);
+//      return(<div>
+//        <h2>Welcome {this.state.profile.nickname}</h2>
+//        </div>
 
-  // Render 
-  render: function() {
-    console.log('---------------------');
-    if(this.state.choose == false) {
-      return (
-        <Toggle 
-        handleWeatherAPI={this.getWeatherAPI}
-        handlenytAPI={this.getnytAPI}
-        handleimgurAPI={this.getimgurAPI}
-        handleChoose={this.handleChoose} />
-        )
-    } else {
-      return (
-        <div>
-          <ApiRender
-            WeatherAPIChoose={this.state.weatherAPI}
-            nytAPIChoose={this.state.nytAPI}
-            imgurAPIChoose={this.state.imgurAPI}
-            WeatherAPIData={this.getWeatherAPI}
-            nytAPIData={this.getnytAPI}
-            imgurAPIData={this.getimgurAPI}
-            ApiChoose={this.state}
-          />
-        </div>
-      )
-    }
-  }
-});
-
-
-
-var Toggle = React.createClass({
-  render: function(){
-    return(
-      <div>
-            <div 
-             className="api-one"
-             onClick={this.props.handleWeatherAPI}> Weather
-             </div>
-
-            <div 
-             className="api-two"
-             onClick={this.props.handlenytAPI}> NYT 
-             </div>
-
-            <div 
-             className="api-three"
-             onClick={this.props.handleimgurAPI}> IMGUR
-             </div>
-
-             <div 
-             className="api-choose"
-             onClick={this.props.handleChoose}> Choose
-             </div>
-
-        </div> 
-        )
-  }
-
-})
-
-
-
-
-
-var ApiRender = React.createClass({
-  handleWeatherAPIData:function(){
-    var Data = this.props.WeatherAPIData;
-
-  },
-  handlenytAPIData:function(){
-
-  },
-  handlenytAPIData:function(){
-
-  },
-  render: function(){ 
-  console.log(this.props.WeatherAPIData);
-  console.log(this.props.nytAPIData);
-  console.log(this.props.imgurAPIData);
-  return(
-    <h1>Works</h1>
-    )
-
-  }
-})
-
-
-
-
-ReactDOM.render(<App />, document.getElementById('main-container'));
-
-
+//                );
+//    } else {
+//      return(
+//      <div className='loading'>Loading</div>
+//    )
+//  }
+//  }
+// })
