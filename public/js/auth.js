@@ -416,7 +416,7 @@ var NotesForm = React.createClass(
   {
     getInitialState: function(){
         return {
-              notes:[]
+            notes:[]
           };
     },
     handleNoteChange: function(e){
@@ -474,14 +474,32 @@ var NotesDisplayer = React.createClass({
         createNotes.push(note);
         this.setState({totalNotes: createNotes});
     },
+    deleteAJAX: function(id){
+        console.log('!!==== DELETE NOTES AJAX ====!!');
+        $.ajax({
+            method: 'DELETE',
+            url: '/users/'+identity+'/notes/'+id,
+        }).done(function(y){
+            console.log('yay');
+        })
+    },
     render: function(){
-
       console.log(this.props.notesdata)
+      var self = this;
+      var callback = function(id){
+        self.deleteAJAX(id);
+      }
       var displayer = this.props.notesdata.map(function(x){
+        var id = x._id;
         return(
           <div>
-          <h3>{x.notes}</h3><button value={x._id}>del</button>
-          </div>
+           <button 
+            value={id}
+            onClick={callback(id)}>del</button>
+
+            <h3>{x.notes}</h3>
+ 
+            </div>
         );
       });
 
@@ -494,7 +512,7 @@ var NotesDisplayer = React.createClass({
     });
     return(
         <div>
-          <div>{displayer}</div>
+          {displayer}
             <p>{displayNote}</p>
             <NotesForm onSubmit={this.addNote}/>
         </div>
