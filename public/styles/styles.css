@@ -1,0 +1,48 @@
+.api-one { 
+	display: inline-block;
+	position: relative;
+		left: 270px;
+		top: 250px;
+
+
+ }
+
+
+.api-two { 
+	
+	display: inline-block; 
+	position: relative;
+		left: 350px;
+		top: 250px;
+	
+
+
+
+ }
+
+ .api-three { 
+	display: inline-block;
+	position: relative;
+		left: 400px;
+		top: 250px;
+	
+}
+
+
+ .notes-button { 
+	display: inline-block;
+	position: relative;
+		left: 500px;
+		top: 250px;
+	
+}
+
+.button{ 
+	color: white;
+
+
+ }
+.clicked:focus{ 
+	color: blue;
+
+ }
