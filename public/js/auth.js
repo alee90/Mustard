@@ -192,83 +192,343 @@ var Logout = React.createClass({
     }
 })
 
-//AUTH0 COMPONENT
+/
+
+///Main component
+
 var App = React.createClass({
-	componentWillMount: function() {
-      	this.lock = new Auth0Lock('ayXZtD76COwoeUKF8xX1IoqXQY8mNZq0', 'mustard.auth0.com');
-      	this.setState({idToken: this.getIdToken()});
-  	},
-  	createLock: function(){
-  		this.lock = new Auth0Lock(this.props.clientId, this.props.domain);
-  	},
-  	getIdToken: function(){
-  		var idToken = localStorage.getItem('id_token');
-  		var authHash = this.lock.parseHash(window.location.hash);
-  		if(!idToken && authHash){
-  			if (authHash.id_token){
-  				idToken = authHash.id_token;
-  				localStorage.setItem('id_token', authHash.id_token);
-  			}
-  			if(authHash.error){
-  				console.log('errror', authHash);
-  			}
-  		}
-  		return idToken;
-  	},
-  	render: function() {
-  		if(this.state.idToken){
-  			return(<LoggedIn lock={this.lock} idToken={this.state.idToken} />);
-  		} else {
-	    return (<Home lock={this.lock} />);
-	  	}
-	}
+  getInitialState: function() {
+    return {
+        weatherAPI: null,
+        nytAPI: null,
+        imgurAPI: null,
+        choose: false
+         };
+  },
+  homeButton: function(){
+    this.setState({
+      weatherAPI: null,
+        nytAPI: null,
+        imgurAPI: null,
+        choose: false
+    })
+  },
+  handleChoose: function() {
+    this.setState({
+      choose: true
+    })
+  },
+  handleWeatherAPI: function(data) {
+    // this.getWeatherAPI();
+    this.setState({
+      weatherAPI: data
+    })
+  },
+  handlenytAPI: function(data) {
+    // this.getnytAPI();
+    this.setState({
+      nytAPI: data
+    })
+  },
+  handleimgurAPI: function(x) {
+    // this.getimgurAPI();
+     this.setState({
+      imgurAPI: x
+    })
+  },
+  getWeatherAPI:function(data) {
+    $.ajax({
+          url: "/test/weather/",
+        method: 'GET',
+        success: function(data) {
+          this.handleWeatherAPI(data);
+      }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }
+    })
+  },
+  getnytAPI:function(data) {
+    $.ajax({
+        url: '/test',
+        method: 'GET',
+        success: function(data) {
+          this.handlenytAPI(data);
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }
+    })
+  },
+  getimgurAPI:function() {
+    $.ajax({
+        url: '/test/pics/forks',
+        method: 'GET',
+        success: function(data) { 
+          var x = data.data;
+          this.handleimgurAPI(x);
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }
+    })
+
+  },
+
+  // Render 
+  render: function() {
+    console.log('---------------------');
+    if(this.state.choose == false) {
+      return (
+        <Toggle 
+        handleWeatherAPI={this.getWeatherAPI}
+        handlenytAPI={this.getnytAPI}
+        handleimgurAPI={this.getimgurAPI}
+        handleChoose={this.handleChoose} />
+        )
+    } else {
+      return (
+        <div>
+          <ApiRender
+            weatherAPIChoose={this.state.weatherAPI}
+            nytAPIChoose={this.state.nytAPI}
+            imgurAPIChoose={this.state.imgurAPI}
+            WeatherAPIData={this.getWeatherAPI}
+            nytAPIData={this.getnytAPI}
+            imgurAPIData={this.getimgurAPI}
+            ApiChoose={this.state}
+            Home={this.homeButton}
+          />
+        </div>
+      )
+    }
+  }
 });
 
-var Home = React.createClass({
-	showLock: function(){
-		this.props.lock.show();
-	},
-	render: function(){
-		return(
-			<div className='login-box'>
-				<a onClick={this.showLock}>Sign In!</a>
-			</div>)
-	}
+
+
+var Toggle = React.createClass({
+  render: function(){
+    return(
+      <div>
+            <div 
+             className="api-one"
+             onClick={this.props.handleWeatherAPI}> Weather
+             </div>
+
+            <div 
+             className="api-two"
+             onClick={this.props.handlenytAPI}> NYT 
+             </div>
+
+            <div 
+             className="api-three"
+             onClick={this.props.handleimgurAPI}> IMGUR
+             </div>
+
+             <div 
+             className="api-choose"
+             onClick={this.props.handleChoose}> Choose
+             </div>
+
+        </div> 
+        )
+  }
+
 })
 
-var LoggedIn = React.createClass({
-	getInitialState: function(){
-		return{
-			profile: null
-		}
-	},
-	componentDidMount: function(){
-		//RETRIEVE PROFILE
-		this.props.lock.getProfile(this.props.idToken, function(err,profile){
-			if(err){
-				console.log('error loading profile', err)
-				return;
-			} 
-			this.setState({profile: profile});
-		}.bind(this));
-	},
 
-	render: function(){
-		if (this.state.profile){
-			console.log(this.state.profile);
-		console.log(this.state.profile.identities[0].access_token);
-			return(<div>
-				<h2>Welcome {this.state.profile.nickname}</h2>
-				</div>
 
-								);
-		} else {
-			return(
-			<div className='loading'>Loading</div>
-		)
-	}
-	}
+
+var ApiRender = React.createClass({
+  render: function(){ 
+  console.log(this.props.WeatherAPIData);
+  console.log(this.props.nytAPIData);
+  console.log(this.props.imgurAPIData);
+  return(
+
+   <div>
+     <button onClick={this.props.Home}> Home</button> 
+  
+
+    <div>
+      <Weather weatherdata={this.props.weatherAPIChoose} />
+      <NYTimes nytdata={this.props.nytAPIChoose} />
+      <Imgur imgurdata={this.props.imgurAPIChoose}/>
+    </div>  
+    </div>
+    )
+
+  }
 })
+
+
+var Weather = React.createClass({
+  render:function(){
+    var data = this.props.weatherdata;
+    if(this.props.weatherdata === null){
+    return(
+      null
+      )
+  }else {
+    return(
+      <h1> Weather API CHosen </h1>
+      )
+  }
+  }
+
+})
+
+var Display = React.createClass({
+  render: function(){ 
+    console.log(this.props)
+    return( 
+      <div zip={this.props.zip}>
+        <h1>{this.props.name}</h1>
+        <h2>{this.props.temp}</h2>
+        <h2>{this.props.desc}</h2>
+        <h3>Min</h3>
+        <h4>{this.props.min}</h4>
+        <h3>Max</h3>
+        <h4>{this.props.max}</h4>
+      </div>
+    );
+  }
+});
+
+
+
+
+var NYTimes = React.createClass({
+  getInitialState:function(){
+    return{
+      storyone: null,
+      urlone: " ",
+      storytwo: null,
+      urltwo: " ",
+      storythree: null,
+      urlthree: " ",
+      storyfour: null,
+      urlfour: " ",
+      storyfive: null,
+      urlfive: " "
+
+    }
+  },
+  handleStoryone: function() {
+    var abstractone = this.props.nytdata.results[0].abstract;
+    var URlone = this.props.nytdata.results[0].short_url;
+    this.setState({
+      storyone: abstractone,
+      urlone: URlone
+    })
+  },
+   handleStorytwo: function() {
+    var abstracttwo = this.props.nytdata.results[1].abstract;
+    var URltwo = this.props.nytdata.results[1].short_url;
+    this.setState({
+      storytwo: abstracttwo,
+      urltwo: URltwo
+    })
+  },
+  handleStorythree: function() {
+    var abstractthree = this.props.nytdata.results[2].abstract;
+    var URlthree = this.props.nytdata.results[2].short_url;
+    this.setState({
+      storythree: abstractthree,
+      urlthree: URlthree
+    })
+  },
+  handleStoryfour: function() {
+    var abstractfour = this.props.nytdata.results[3].abstract;
+    var URlfour = this.props.nytdata.results[3].short_url;
+    this.setState({
+      storyfour: abstractfour,
+      urlfour: URlfour
+    })
+  },
+  handleStoryfive: function() {
+    var abstractfive = this.props.nytdata.results[4].abstract;
+    var URlfive = this.props.nytdata.results[4].short_url;
+    this.setState({
+      storyfive: abstractfive,
+      urlfive: URlfive
+    })
+  },
+  render:function(){
+      if(this.props.nytdata === null){
+    return(
+      null
+      )
+  }else {
+    return(
+      <div>
+        <h1>NYT API Chosen</h1>
+        <div onClick={this.handleStoryone}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[0].title}</h2>
+        <h4>{this.state.storyone}</h4>
+        <a href ={this.state.urlone}>{this.state.urlone}</a>
+        </div>
+
+         <div onClick={this.handleStorytwo}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[1].title}</h2>
+        <h4>{this.state.storytwo}</h4>
+        <a href ={this.state.urltwo}>{this.state.urltwo}</a>
+        </div>
+
+         <div onClick={this.handleStorythree}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[2].title}</h2>
+          <h4>{this.state.storythree}</h4>
+          <a href ={this.state.urlthree}>{this.state.urlthree}</a>
+        </div>
+
+         <div onClick={this.handleStoryfour}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[3].title}</h2>
+          <h4>{this.state.storyfour}</h4>
+          <a href ={this.state.urlfour}>{this.state.urlfour}</a>
+        </div>
+
+         <div onClick={this.handleStoryfive}>
+        <h2 className="nyt-times-headline">{this.props.nytdata.results[4].title}</h2>
+          <h4>{this.state.storyfive}</h4>
+          <a href ={this.state.urlfive}>{this.state.urlfive}</a>
+        </div>
+        
+      </div>  
+      )
+  }
+  }
+
+})
+
+var Imgur = React.createClass({
+
+  render:function(){
+      if(this.props.imgurdata === null){
+        // var x = {this.props.imgurdata[0].link}
+    return(
+      null
+      )
+  }else {
+    return(
+      <div>
+        <img src={this.props.imgurdata[1].link}/>
+        <img src={this.props.imgurdata[2].link}/>
+        <img src={this.props.imgurdata[3].link}/>
+        <img src={this.props.imgurdata[4].link}/>
+        <img src={this.props.imgurdata[5].link}/>
+        <img src={this.props.imgurdata[6].link}/>
+      </div>
+      )
+  }
+  }
+
+})
+
+// ReactDOM.render(<App />, document.getElementById('main-container'));
+
+
+
 
 // var APICalls = React.createClass({
 // 	getInitialState: function(){

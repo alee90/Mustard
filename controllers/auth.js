@@ -4,7 +4,7 @@ var router = express.Router();
 // var User = require('../models/users.js');
 // var jwt = require('jsonwebtoken');
 
-// Initialize passport
+// // Initialize passport
 // router.use(passport.initialize());
 
 // // Log in and if successful, send back the token
@@ -18,8 +18,11 @@ var router = express.Router();
 // 		expiresIn: 1440 // Expires in 24 hours
 // 	});
 
+// 	var username = req.user.username;
+// 	var id = req.user._id;
+// 	console.log(id)
 // 	// console.log(token);
-// 	res.json({ token: token });
+// 	res.json({ token: token, username: username, id: id });
 // });
 
 module.exports = router;

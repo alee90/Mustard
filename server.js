@@ -8,6 +8,7 @@ var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var port = process.env.PORT || 3000;
 
+console.log(process.env.JWT_SECRET);
 
 //MIDDLEWARE
 app.use(express.static('public'));
@@ -36,7 +37,6 @@ app.use('/users', usersController);
 
 var authController = require('./controllers/auth.js')
 app.use('/auth', authController);
-
 
 var testController = require('./controllers/test.js')
 app.use('/test', testController);
