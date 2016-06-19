@@ -351,7 +351,7 @@ var ApiRender = React.createClass({
 })
 
 var Weather = React.createClass({
-  render:function(){
+    render:function(){
     var data = this.props.weatherdata;
     if(this.props.weatherdata === null){
     return(
