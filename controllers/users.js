@@ -5,8 +5,6 @@ var User = require('../models/users.js');
 var Notes = require('../models/notes.js');
 var request = require('request');
 
-
-
 // !!======== NO AUTH ========!!\\
 
 // CREATE A NEW USER
