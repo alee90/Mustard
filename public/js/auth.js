@@ -110,10 +110,6 @@ var LoginForm = React.createClass({
 		)
 	}
 })
-       
-
-  console.log(Cookies('id'));
-
 
 var SignUpForm = React.createClass({
 	getInitialState: function() {
@@ -202,7 +198,8 @@ var App = React.createClass({
         weatherAPI: null,
         nytAPI: null,
         imgurAPI: null,
-        choose: false
+        choose: false,
+        mainNotes: []
          };
   },
   homeButton: function(){
@@ -213,9 +210,10 @@ var App = React.createClass({
         choose: false
     })
   },
-  handleChoose: function() {
+  handleNotes: function(x) {
     this.setState({
-      choose: true
+      choose: true,
+      mainNotes: x
     })
   },
   handleWeatherAPI: function(data) {
@@ -237,6 +235,38 @@ var App = React.createClass({
      this.setState({
       imgurAPI: x,
       choose: true
+    })
+  },
+  // getNotes: function(){
+  //   var identity = Cookies('id');
+  //   $.ajax({
+  //     method: 'GET',
+  //     url: '/users/'+identity+'/notes',
+  //   }).done(function(x){
+  //     this.handleNotes(x);
+  //   }).bind(this);
+  // },
+  getNotes:function(data) {
+    var self = this;
+    var identity = Cookies('id');
+    // var callback = function(x){
+    //   self.handleNotes(x)
+    // };
+    $.ajax({
+        url: "/users/"+identity+'/notes',
+        method: 'GET',
+        success: function(data) {
+          console.log(data);
+          // data.forEach(function(merp){
+          //   console.log(merp.notes);
+          //   var x = merp.notes
+          //   callback(x);
+          // })
+          this.handleNotes(data)
+      }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(status, err.toString());
+          }
     })
   },
   getWeatherAPI:function(data) {
@@ -280,14 +310,14 @@ var App = React.createClass({
 
   // Render 
   render: function() {
-    console.log('---------------------');
+    // console.log('---------------------');
     if(this.state.choose == false) {
       return (
         <Toggle 
         handleWeatherAPI={this.getWeatherAPI}
         handlenytAPI={this.getnytAPI}
         handleimgurAPI={this.getimgurAPI}
-        handleChoose={this.handleChoose} />
+        handleNotes={this.getNotes} />
         )
     } else {
       return (
@@ -296,13 +326,14 @@ var App = React.createClass({
             weatherAPIChoose={this.state.weatherAPI}
             nytAPIChoose={this.state.nytAPI}
             imgurAPIChoose={this.state.imgurAPI}
+            notesChoose={this.state.mainNotes}
             WeatherAPIData={this.getWeatherAPI}
             nytAPIData={this.getnytAPI}
             imgurAPIData={this.getimgurAPI}
+            mainNotes={this.getNotes}
             ApiChoose={this.state}
             Home={this.homeButton}
           />
-        <NotesDisplayer />
         </div>
       )
     }
@@ -341,8 +372,8 @@ var Toggle = React.createClass({
              </div>
 
              <div className="notes-button"
-                  onClick={this.props.handleChoose}>
-               <button className="cliced">
+              onClick={this.props.handleNotes}>
+               <button className="clicked">
                <img src ="http://www.t-gaap.com/sites/www.t-gaap.com/assets/images/notes.jpg?1349118446" />
                </button>   
              </div>
@@ -354,11 +385,38 @@ var Toggle = React.createClass({
 
 })
 
+var identity = Cookies('id');
+console.log(identity);
+
+
+var ApiRender = React.createClass({
+  render: function(){ 
+  // console.log(this.props.WeatherAPIData);
+  // console.log(this.props.nytAPIData);
+  // console.log(this.props.imgurAPIData);
+  return(
+
+   <div>
+     <button onClick={this.props.Home}> Home</button> 
+  
+
+    <div>
+      <Weather weatherdata={this.props.weatherAPIChoose} />
+      <NYTimes nytdata={this.props.nytAPIChoose} />
+      <Imgur imgurdata={this.props.imgurAPIChoose}/>
+      <NotesDisplayer notesdata={this.props.notesChoose}/>
+    </div>  
+    </div>
+    )
+
+  }
+})
+
 var NotesForm = React.createClass(
   {
     getInitialState: function(){
         return {
-              notes:''
+              notes:[]
           };
     },
     handleNoteChange: function(e){
@@ -368,18 +426,21 @@ var NotesForm = React.createClass(
     handleSubmit: function(e){
         console.log('!!==== NOTES SUBMISSION ====!!');
         e.preventDefault();
-        this.saveAJAX();
         console.log(this.state);
         this.props.onSubmit({notes: this.state.notes.trim()});
         this.setState({notes: ''});
+        this.appendAJAX(this.state);
+
     },
-    saveAJAX: function(e){
-        console.log('!!==== NOTES AJAX ====!!');
+    appendAJAX: function(x){
+        console.log('!!==== ADD NOTES AJAX ====!!');
         $.ajax({
-            method: 'GET',
-            url: '/test/testroute'
-        }).done(function(){
+            method: 'POST',
+            url: '/users/'+identity+'/notes',
+            data: x
+        }).done(function(y){
             console.log('yay');
+            this.setState({notes: y})
         })
     },
     render: function(){
@@ -414,7 +475,17 @@ var NotesDisplayer = React.createClass({
         this.setState({totalNotes: createNotes});
     },
     render: function(){
-        var displayNote = this.state.totalNotes.map(function(note){
+
+      console.log(this.props.notesdata)
+      var displayer = this.props.notesdata.map(function(x){
+        return(
+          <div>
+          <h3>{x.notes}</h3>
+          </div>
+        );
+      });
+
+      var displayNote = this.state.totalNotes.map(function(note){
         return(
             <div className="notez">
                 <h3>{note.notes}</h3>
@@ -423,35 +494,15 @@ var NotesDisplayer = React.createClass({
     });
     return(
         <div>
+          {displayer}
+
             <NotesForm onSubmit={this.addNote}/>
-            {displayNote}
+            <p>{displayNote}</p>
         </div>
         );
     }
 });
 
-
-var ApiRender = React.createClass({
-  render: function(){ 
-  console.log(this.props.WeatherAPIData);
-  console.log(this.props.nytAPIData);
-  console.log(this.props.imgurAPIData);
-  return(
-
-   <div>
-     <button onClick={this.props.Home}> Home</button> 
-  
-
-    <div>
-      <Weather weatherdata={this.props.weatherAPIChoose} />
-      <NYTimes nytdata={this.props.nytAPIChoose} />
-      <Imgur imgurdata={this.props.imgurAPIChoose}/>
-    </div>  
-    </div>
-    )
-
-  }
-})
 
 
 var Weather = React.createClass({

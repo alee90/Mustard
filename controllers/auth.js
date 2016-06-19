@@ -22,7 +22,7 @@ router.post('/', passport.authenticate('local', { session: false }), function(re
 	// res.json({ token: token });
 	var username = req.user.username;
 	var id = req.user._id;
-	console.log(id)
+	// console.log(id)
 	// console.log(token);
 	res.json({ token: token, username: username, id: id });
 });
