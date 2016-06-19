@@ -480,7 +480,7 @@ var NotesDisplayer = React.createClass({
       var displayer = this.props.notesdata.map(function(x){
         return(
           <div>
-          <h3>{x.notes}</h3>
+          <h3>{x.notes}</h3><button value={x._id}>del</button>
           </div>
         );
       });
@@ -494,10 +494,9 @@ var NotesDisplayer = React.createClass({
     });
     return(
         <div>
-          {displayer}
-
-            <NotesForm onSubmit={this.addNote}/>
+          <div>{displayer}</div>
             <p>{displayNote}</p>
+            <NotesForm onSubmit={this.addNote}/>
         </div>
         );
     }
