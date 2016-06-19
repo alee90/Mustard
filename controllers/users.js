@@ -1,3 +1,5 @@
+//NOTES BRANCH//
+
 var express = require('express');
 var router = express.Router();
 var passport = require('../config/passport.js');
@@ -22,13 +24,13 @@ router.post('/', function(req,res) {
 
 // !!======== AUTH ========!!\\
 
-// router.use(passport.authenticate('jwt', { session: false }));
+router.use(passport.authenticate('jwt', { session: false }));
 
 //GET NOTE
 router.get('/:id/notes', function(req,res){
 	console.log('!!==== NOTE GET REQUEST ====!!')
 	User.findById(req.params.id).then(function(user) {
-		res.json(user);
+		res.json(user.notes);
 	});
 })
 

@@ -181,6 +181,7 @@ var Logout = React.createClass({
     handleClick: function() {
         console.log('working button');
         Cookies.remove("jwt_token");
+        Cookies.remove('id');
         window.location = '/';
 
     },
