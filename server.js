@@ -8,6 +8,7 @@ var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var port = process.env.PORT || 3000;
 
+console.log(process.env.JWT_SECRET);
 
 //MIDDLEWARE
 app.use(express.static('public'));
