@@ -226,6 +226,7 @@ var App = React.createClass({
           url: "/test/weather/",
         method: 'GET',
         success: function(data) {
+        	console.log(data);
           this.handleWeatherAPI(data);
       }.bind(this),
         error: function(xhr, status, err) {
