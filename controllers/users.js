@@ -6,8 +6,6 @@ var Notes = require('../models/notes.js');
 var request = require('request');
 // console.log(clientID);
 
-console.log(process.env.JWT_SECRET);
-
 
 // !!======== NO AUTH ========!!\\
 
