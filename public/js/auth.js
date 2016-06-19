@@ -84,6 +84,7 @@ var LoginForm = React.createClass({
 			success: function(data) {
 				console.log('Cookie');
 				Cookies.set('jwt_token', data.token);
+        Cookies.set('id', data.id);
 				console.log(data);
 				this.props.onChange(data.token)
 			}.bind(this),
@@ -109,6 +110,10 @@ var LoginForm = React.createClass({
 		)
 	}
 })
+       
+
+  console.log(Cookies('id'));
+
 
 var SignUpForm = React.createClass({
 	getInitialState: function() {
