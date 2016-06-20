@@ -43,7 +43,7 @@ var LogInPage = React.createClass({
             return (
                 <div>
                 <LoginForm initialLoginCheck={this.state.authenticatedUser} onChange={this.changeLogin}/>
-                <SignUpForm />
+                
                 </div>
             )
         }
@@ -57,7 +57,8 @@ var LoginForm = React.createClass({
         return {
             username: this.props.initialLoginCheck,
             password: this.props.initialLoginCheck,
-            loginStatus: this.props.initialLoginCheck
+            loginStatus: this.props.initialLoginCheck,
+            create: false
         };
     },
     handleLoginFormChange: function(stateName, e) {
@@ -70,6 +71,16 @@ var LoginForm = React.createClass({
         var username = this.state.username.trim();
         var password = this.state.password.trim();
         this.loginAJAX(username, password);
+    },
+    showSignupForm: function(){
+      this.setState({ 
+        create: true
+      })
+    },
+     backButton:function(){
+      this.setState({
+        create: false
+      })
     },
     loginAJAX: function(username, password) {
         $.ajax({
@@ -92,6 +103,7 @@ var LoginForm = React.createClass({
         });
     },
     render: function() {
+      if(this.state.create === false){
         return (
             <div className='login-form' >
                 <h3>Please Login</h3>
@@ -104,8 +116,19 @@ var LoginForm = React.createClass({
                     <br/>
                     <input type='submit'/>
                 </form>
+                <button onClick={this.showSignupForm}> New User</button>
             </div>
         )
+       }
+      else { 
+         return(
+          <div>
+          <SignUpForm />
+          <button onClick={this.backButton}> Back </button>
+          </div>
+          ) 
+
+      } 
     }
 })
 
@@ -672,15 +695,21 @@ var Imgur = React.createClass({
         if(x.is_album == false){
         // console.log(x.link);
         return(
+
           <div>
-            <img src={x.link}/>
+            <img className="imgur-pictures" src={x.link}/>
           </div>
           )
       }
     })
       return(
         <div>
+        <div>
+              <h1 className="imgur-title">Top Memes for Today</h1>
+        </div>
+        <div className="imgur-pictures-div">
         {images}
+        </div>
         </div>
         )
     
