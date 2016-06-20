@@ -10,8 +10,6 @@ var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var port = process.env.PORT || 3000;
 
-console.log(process.env.JWT_SECRET);
-
 //MIDDLEWARE
 app.use(express.static('public'));
 app.use(morgan('dev'));
@@ -48,3 +46,5 @@ app.listen(port);
 console.log('=============================');
 console.log('PORT: ' + port);
 console.log('=============================');
+
+// sudo -E nodemon

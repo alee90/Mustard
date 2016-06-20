@@ -337,33 +337,33 @@ var Toggle = React.createClass({
             <div 
              className="api-one"
              onClick={this.props.handleWeatherAPI}> 
-             <button className="clicked"> 
+          
              <img src= "https://cdn.downdetector.com/static/uploads/c/300/f5071/weather_channel.png" /> 
-             </button>
+        
 
              </div>
 
             <div 
              className="api-two"
              onClick={this.props.handlenytAPI}> 
-             <button className="clicked">
+        
              <img src= "http://14575-presscdn-0-73.pagely.netdna-cdn.com/wp-content/uploads/2015/11/New-York-Times-logo.jpg" />
-             </button>
+          
              </div>
 
             <div 
              className="api-three"
              onClick={this.props.handleimgurAPI}>
-             <button className="clicked">
+            
              <img src= "http://assets.materialup.com/uploads/a7ab3d40-0001-4ca9-b37d-cf9a6eff969c/teaser.png" />
-             </button>
+        
              </div>
 
              <div className="notes-button"
               onClick={this.props.handleNotes}>
-               <button className="clicked">
+        
                <img src ="http://www.t-gaap.com/sites/www.t-gaap.com/assets/images/notes.jpg?1349118446" />
-               </button>   
+            
              </div>
 
         </div> 
@@ -385,7 +385,9 @@ var ApiRender = React.createClass({
   return(
 
    <div>
-     <button onClick={this.props.Home}> Home</button> 
+     <button 
+     className="home-button"
+     onClick={this.props.Home}> Home</button> 
     <div>
       <Weather weatherdata={this.props.weatherAPIChoose} />
       <NYTimes nytdata={this.props.nytAPIChoose} />
