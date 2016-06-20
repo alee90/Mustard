@@ -106,17 +106,19 @@ var LoginForm = React.createClass({
       if(this.state.create === false){
         return (
             <div className='login-form' >
-                <h3>Please Login</h3>
+                <h1 className="login-text"> Login </h1>
                 <form onSubmit={this.handleSubmit}>
-                    <label htmlFor='username'>Username</label>
-                    <input className='username-login-form' type='text' value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
+                    <input className='username-login-form' type='text' placeholder='Username' value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
                     <br/>
-                    <label htmlFor='password'>Password</label>
-                    <input className='password-login-form' type='password' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
+                    <input className='password-login-form' type='password' placeholder='Password' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
                     <br/>
-                    <input type='submit'/>
+                    <button 
+                    className="login-button"
+                    type='submit'>Login</button>
                 </form>
-                <button onClick={this.showSignupForm}> New User</button>
+                <button
+                 className="new-user-button"
+                 onClick={this.showSignupForm}>New User</button>
             </div>
         )
        }
@@ -324,11 +326,13 @@ var App = React.createClass({
     // console.log('---------------------');
     if(this.state.choose == false) {
       return (
+        <div>
         <Toggle 
         handleWeatherAPI={this.getWeatherAPI}
         handlenytAPI={this.getnytAPI}
         handleimgurAPI={this.getimgurAPI}
         handleNotes={this.getNotes} />
+        </div>
         )
     } else {
       return (
