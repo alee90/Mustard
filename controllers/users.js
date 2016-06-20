@@ -45,28 +45,28 @@ router.post('/:id/notes', function(req,res){
 	});
 });
 
-//UPDATE NOTES
-router.put('/:id/notes/:note_id', function(req,res) {
-	console.log('!!===== UPDATE NOTE =====!!');
-	User.findById(req.params.id).then(function(user) { 
-		console.log(user);
-		Notes.findOneAndUpdate({_id: req.params.note_id }, req.body, function(err, note) { 
-			if (err) {
-				console.log(err);
-			}
-			console.log(note);
-			note.save();
-		})
-		user.notes.forEach( function(noted) {
-			if (noted._id == req.params.note_id) {  
-				console.log(noted);
-				noted.name = req.body.name;
-				user.save();
-			}
-		})
-		console.log(user.notes);
-	})
-});
+// //UPDATE NOTES
+// router.put('/:id/notes/:note_id', function(req,res) {
+// 	console.log('!!===== UPDATE NOTE =====!!');
+// 	User.findById(req.params.id).then(function(user) { 
+// 		console.log(user);
+// 		Notes.findOneAndUpdate({_id: req.params.note_id }, req.body, function(err, note) { 
+// 			if (err) {
+// 				console.log(err);
+// 			}
+// 			console.log(note);
+// 			note.save();
+// 		})
+// 		user.notes.forEach( function(noted) {
+// 			if (noted._id == req.params.note_id) {  
+// 				console.log(noted);
+// 				noted.name = req.body.name;
+// 				user.save();
+// 			}
+// 		})
+// 		console.log(user.notes);
+// 	})
+// });
 
 //DELETE NOTES
 router.delete('/:id/notes/:note_id', function(req,res){

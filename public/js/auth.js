@@ -1,5 +1,4 @@
-
-// HIGHEST LEVEL COMPONENT
+//LOGIN PAGE REACT
 var LogInPage = React.createClass({
 	getInitialState: function() {
 		var cookieCheck;
@@ -11,29 +10,28 @@ var LogInPage = React.createClass({
 			cookieCheck = '';
 			loggedOutUser = true;
 		}
-		// so basically a first time user will have authenticatedUser set to ''
 		return {
-			// books = [],
 			authenticatedUser: cookieCheck,
 			loggedOutUser: loggedOutUser
 		};
 	},
 
-	// This is a function that the parent can call that will change the state when someone properly logs in and creates a cookie containing the jwt_token
+	//Change state of login
 	changeLogin: function() {
 		this.setState({
 			authenticatedUser: true,
 			loggedOutUser: false
 		})
 	},
-	// Render 
+
+	//RENDER 
 	render: function() {
 
 		console.log('authenticatedUser: ', this.state.authenticatedUser);
 		console.log('---------------------');
 		console.log('cookie:', document.cookie);
 
-		// If logged in state verified, show a different component
+		//if authenticated, start using app.
 		if(this.state.authenticatedUser === true) {
 			return (
 				<div>
@@ -191,14 +189,14 @@ var Logout = React.createClass({
     }
 })
 
-///Main component
+//MEAT OF THE APP IS HERE
 var App = React.createClass({
   getInitialState: function() {
     return {
         weatherAPI: null,
         nytAPI: null,
         imgurAPI: null,
-        mainNotes: null,
+        notesAPI: [],
         choose: false,
 
          };
@@ -208,13 +206,15 @@ var App = React.createClass({
       weatherAPI: null,
         nytAPI: null,
         imgurAPI: null,
+        notesAPI: [],
         choose: false
     })
   },
   handleNotes: function(x) {
     this.setState({
+      notesAPI: x,
       choose: true,
-      mainNotes: x
+
     })
   },
   handleWeatherAPI: function(data) {
@@ -238,15 +238,6 @@ var App = React.createClass({
       choose: true
     })
   },
-  // getNotes: function(){
-  //   var identity = Cookies('id');
-  //   $.ajax({
-  //     method: 'GET',
-  //     url: '/users/'+identity+'/notes',
-  //   }).done(function(x){
-  //     this.handleNotes(x);
-  //   }).bind(this);
-  // },
   getNotes:function(data) {
     var self = this;
     var identity = Cookies('id');
@@ -258,11 +249,6 @@ var App = React.createClass({
         method: 'GET',
         success: function(data) {
           console.log(data);
-          // data.forEach(function(merp){
-          //   console.log(merp.notes);
-          //   var x = merp.notes
-          //   callback(x);
-          // })
           this.handleNotes(data)
       }.bind(this),
         error: function(xhr, status, err) {
@@ -309,7 +295,7 @@ var App = React.createClass({
 
   },
 
-  // Render 
+  //Render 
   render: function() {
     // console.log('---------------------');
     if(this.state.choose == false) {
@@ -327,7 +313,7 @@ var App = React.createClass({
             weatherAPIChoose={this.state.weatherAPI}
             nytAPIChoose={this.state.nytAPI}
             imgurAPIChoose={this.state.imgurAPI}
-            notesChoose={this.state.mainNotes}
+            notesChoose={this.state.notesAPI}
             WeatherAPIData={this.getWeatherAPI}
             nytAPIData={this.getnytAPI}
             imgurAPIData={this.getimgurAPI}
@@ -446,6 +432,7 @@ var NotesForm = React.createClass(
         })
     },
     render: function(){
+      if(this.props.notechoose === true){
         return(
             <form 
                 className="notesForm" 
@@ -463,8 +450,11 @@ var NotesForm = React.createClass(
                 />
             </form>);
         }
+     else{
+      return(<div></div>)
     }
-);
+  }
+});
 
 //APPEND NOTES
 var NotesDisplayer = React.createClass({
@@ -476,24 +466,10 @@ var NotesDisplayer = React.createClass({
         createNotes.push(note);
         this.setState({totalNotes: createNotes});
     },
-    // deleteAJAX: function(id){
-    //     console.log('!!==== DELETE NOTES AJAX ====!!');
-    //     var x = id;
-    //     $.ajax({
-    //         method: 'GET',
-    //         url: '/users/'+identity+'/notes/'+x,
-    //     }).done(function(y){
-    //         console.log('yay');
-    //         // this.state.totalNotes.splice(y,1);
-    //     }).bind(this)
-    // },
     deleteAJAX: function(id) {
       var self = this;
       var identity = Cookies('id');
       console.log(id);
-    // var callback = function(x){
-    //   self.handleNotes(x)
-    // };
       $.ajax({
           url: '/users/'+identity+'/notes/'+id,
           method: 'DELETE',
@@ -531,6 +507,7 @@ var NotesDisplayer = React.createClass({
       });
 
       var displayNote = this.state.totalNotes.map(function(note){
+        console.log(note);
         return(
             <div className="notez">
                 <h3>{note.notes}</h3>
