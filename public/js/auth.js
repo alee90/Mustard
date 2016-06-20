@@ -261,6 +261,7 @@ var App = React.createClass({
           url: "/test/weather/",
         method: 'GET',
         success: function(data) {
+          console.log(data);
           this.handleWeatherAPI(data);
       }.bind(this),
         error: function(xhr, status, err) {
@@ -529,37 +530,24 @@ var NotesDisplayer = React.createClass({
 var Weather = React.createClass({
   render:function(){
     var data = this.props.weatherdata;
+    console.log(data.name);
     if(this.props.weatherdata === null){
     return(
       null
       )
   }else {
     return(
-      <h1> Weather API CHosen </h1>
+      <div>
+        <h1>Place: {data.name}</h1>
+        <h2>Temperature: {data.main.temp}</h2>
+        <h2>Description: {data.weather[0].description}</h2>
+        <h3>{data.main.humidity}% Humidity</h3>
+        </div>
       )
   }
   }
 
-})
-
-var Display = React.createClass({
-  render: function(){ 
-    console.log(this.props)
-    return( 
-      <div zip={this.props.zip}>
-        <h1>{this.props.name}</h1>
-        <h2>{this.props.temp}</h2>
-        <h2>{this.props.desc}</h2>
-        <h3>Min</h3>
-        <h4>{this.props.min}</h4>
-        <h3>Max</h3>
-        <h4>{this.props.max}</h4>
-      </div>
-    );
-  }
 });
-
-
 
 
 var NYTimes = React.createClass({

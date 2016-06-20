@@ -47,7 +47,7 @@ var openWeatherId = process.env.OPEN_WEATHER_ID;
 
 router.get('/weather/', function(req, res){
     console.log(req.params.zip);
-    request("http://api.openweathermap.org/data/2.5/weather?zip=91364,us&APPID=" + openWeatherId, function (error, response, body) {
+    request("http://api.openweathermap.org/data/2.5/weather?zip=10013,us&APPID=" + openWeatherId, function (error, response, body) {
         var data = JSON.parse(body)
         res.send(data);
     })

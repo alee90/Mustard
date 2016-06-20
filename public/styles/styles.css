@@ -3,10 +3,15 @@
 	position: relative;
 		left: 270px;
 		top: 250px;
-
+	height: 200px
+	width: 200px;
 
  }
 
+img{
+	height: 200px
+	width: 200px;
+}
 
 .api-two { 
 	
@@ -14,7 +19,6 @@
 	position: relative;
 		left: 350px;
 		top: 250px;
-	
 
 
 
@@ -25,6 +29,8 @@
 	position: relative;
 		left: 400px;
 		top: 250px;
+	height: 200px
+	width: 200px;
 	
 }
 
@@ -32,9 +38,10 @@
  .notes-button { 
 	display: inline-block;
 	position: relative;
-		left: 500px;
-		top: 250px;
-	
+	left: 500px;
+	top: 250px;
+	height: 200px
+	width: 200px;
 }
 
 .button{ 
