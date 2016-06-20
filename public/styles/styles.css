@@ -1,20 +1,19 @@
-html{
-    text-align: center;
-}
-
 
 
 body { 
 background-image: url("background.jpeg");
 font-family: 'Ubuntu', sans-serif;
+
 }
 
-.toggle-page{
-    margin-top: 20px;
-    display: block;
-    width: 100%;
-    height: 500px;
-}
+
+
+.toggle-header {
+font-size: 40px;
+text-align: center;
+position: relative;
+    top: 150px;
+ }
 
 .login-form { 
 width: 600px;
@@ -157,12 +156,13 @@ html, body {
 }
 
 
-.toggle-page{
-    background-color: grey;
+ .toggle-page{
+    overflow:hidden;
+    margin-top: 20px;
     display: block;
     width: 100%;
-    height: 1000px;
- }
+    height: 500px;
+}
 
  .nyt-content { 
     margin-top: 25px;
@@ -181,8 +181,8 @@ html, body {
     margin-right: 10px;
     display: inline-block;
     position: relative;
-/*    top :300px;
-    left: 360px;*/
+    top : 225px;
+    left: 360px;
 }
 
 #main-container{
@@ -195,8 +195,8 @@ html, body {
     display: inline-block; 
     margin-right: 10px;
     position: relative;
-/*        top : 300px;
-        left: 370px;*/
+        top : 225px;
+        left: 370px;
     }
 
  .api-three { 
@@ -205,8 +205,8 @@ html, body {
     display: inline-block;
     margin-right: 10px;
     position: relative;
-/*        top :300px;
-        left: 380px;*/
+        top : 225px;
+        left: 380px;
 }
 
 
@@ -215,9 +215,31 @@ html, body {
     box-shadow: 10px 10px 36px -11px rgba(0,0,0,0.75);
     display: inline-block;
     position: relative;
-        top :300px;
+        top : 225px;
         left: 390px;
 }
+
+
+.weather-data-container {
+width: 1000px;
+height: 1000px; 
+display: inline-block;
+background-image: url("http://www.hurryuppleaseitstime.com/wp-content/uploads/2011/04/Hill-sunny-day.gif");
+position: relative;
+    left: 200px;
+
+ }
+.weather-data { 
+text-align: center;
+width: 400px;
+height: 275px; 
+display: inline-block;
+background-color: white;
+position: relative;
+    top: 200px;
+    left: 310px;
+
+ }
 
 
 img{
@@ -233,8 +255,10 @@ img{
 
  }
 .nyt-logo {
+
     width: 800px;
     position: relative;
+        left: 150px;
 
 }
 
@@ -245,6 +269,7 @@ img{
 
 
 .nyt-times-headline-one-text {
+    text-align: center;
     font-size: 25px;
     position: relative;
 
@@ -264,11 +289,12 @@ img{
     background-color: grey;
     
 }
-
+s
 .nyt-times-headline-three-text {
     font-size: 25px;
     position: relative;
-=
+    text-align: center;
+
 }
 
 .nyt-times-headline-four {
@@ -279,6 +305,7 @@ img{
 .nyt-times-headline-four-text {
     font-size: 25px;
     position: relative;
+    text-align: center;
 
 }
 .nyt-times-headline-five {
@@ -288,6 +315,7 @@ img{
 .nyt-times-headline-five-text {
     font-size: 25px;
     position: relative;
+    text-align: center;
 }
 
 .info {
@@ -313,7 +341,7 @@ position: relative;
 
 .imgur-pictures { 
     margin-top: 20px;
-    margin-left: 220px;
+    margin-left: 170px;
     height: 200px;
     width: 250px;
 
@@ -323,20 +351,37 @@ position: relative;
     display: block;
     position: relative;
         left: 560px;
-
- }
+     }
 
 .logout{
     box-shadow: 10px 10px 36px -11px rgba(0,0,0,0.75);
     display: block;
     width: 100px;
     height: 30px;
-    position: relative;
-    left: 275px;
-    margin-bottom: 100px;
-/*    bottom: 680px;
-*/
+    position: absolute;
+        bottom: 680px;
 }
+
+.note { 
+border: 1px solid black;
+display: inline-block;
+width: 250px;
+height: 250px;
+background-color: gold;
+margin-left: 25px;
+margin-top: 20px;
+
+ }
+
+.delete-button { 
+position: relative;
+    bottom: 50px;
+width: 15px;
+height: 15px;
+
+ }
+
+
 
 .home-button {
     box-shadow: 10px 10px 36px -11px rgba(0,0,0,0.75);

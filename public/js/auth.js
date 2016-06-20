@@ -209,9 +209,8 @@ var Logout = React.createClass({
     },
     render: function() {
         return(
-            <div className='logsout'>
-                <button className='logout' onClick={this.handleClick}>LOGOUT</button>
-            </div>
+       <button className='logout' onClick={this.handleClick}>Logout</button>
+      
         )
 
     }
@@ -363,7 +362,7 @@ var Toggle = React.createClass({
   render: function(){
     return(
       <div className="toggle-page">
-            <h1>Mustard</h1>
+            <h1 className="toggle-header">Mustard</h1>
             <div 
              className="api-one"
              onClick={this.props.handleWeatherAPI}> 
@@ -470,6 +469,7 @@ var NotesForm = React.createClass(
                 onSubmit={this.handleSubmit} 
                 >
             <input 
+                className="note"
                 type="text"
                 placeholder="To do?"
                 value={this.state.notes}
@@ -527,12 +527,12 @@ var NotesDisplayer = React.createClass({
         }
 
         return(
-          <div>
+          <div className="note">
             <p>{x.notes}</p>
-            <input
-              type="button"
-              value='Delete'
-              onClick={callback}/>
+  
+             <img 
+             className="delete-button"
+             onClick={callback} src="http://www.homeadvisor.com/r/wp-content/uploads/2016/01/x.png"/>
             </div>
         );
       });
@@ -540,8 +540,8 @@ var NotesDisplayer = React.createClass({
       var displayNote = this.state.totalNotes.map(function(note){
         console.log(note);
         return(
-            <div className="notez">
-                <h3>{note.notes}</h3>
+            <div className="note">
+                <p>{note.notes}</p>
             </div>
           );
     });
@@ -557,6 +557,10 @@ var NotesDisplayer = React.createClass({
 
 
 
+
+
+
+
 var Weather = React.createClass({
   render:function(){
     var data = this.props.weatherdata;
@@ -569,12 +573,14 @@ var Weather = React.createClass({
   }else {
 
     return(
-      <div>
-        <h1>Place: {data.name}</h1>
-        <h2>Temperature: {(data.main.temp*(9/5)-459.67).toFixed(2)} Degrees</h2>
-        <h2>Description: {data.weather[0].description}</h2>
-        <h3>{data.main.humidity}% Humidity</h3>
+      <div className="weather-data-container">
+        <div className="weather-data">
+          <h1>Place: {data.name}</h1>
+          <h2>Temperature: {(data.main.temp*(9/5)-459.67).toFixed(2)} Degrees</h2>
+          <h2>Description: {data.weather[0].description}</h2>
+          <h3>{data.main.humidity}% Humidity</h3>
         </div>
+       </div> 
       )
   }
   }
