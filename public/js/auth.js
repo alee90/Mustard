@@ -24,6 +24,7 @@ var LogInPage = React.createClass({
         })
     },
 
+
     //RENDER 
     render: function() {
 
@@ -204,7 +205,7 @@ var Logout = React.createClass({
     },
     render: function() {
         return(
-            <div>
+            <div className='logsout'>
                 <button className='logout' onClick={this.handleClick}>LOGOUT</button>
             </div>
         )
@@ -323,12 +324,13 @@ var App = React.createClass({
   render: function() {
     // console.log('---------------------');
     if(this.state.choose == false) {
-      return (
+      return ( <div>
         <Toggle 
         handleWeatherAPI={this.getWeatherAPI}
         handlenytAPI={this.getnytAPI}
         handleimgurAPI={this.getimgurAPI}
         handleNotes={this.getNotes} />
+        </div>
         )
     } else {
       return (
@@ -695,7 +697,6 @@ var Imgur = React.createClass({
         if(x.is_album == false){
         // console.log(x.link);
         return(
-
           <div>
             <img className="imgur-pictures" src={x.link}/>
           </div>
