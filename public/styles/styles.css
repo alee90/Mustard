@@ -47,12 +47,10 @@ img{
     color: blue;
 
  }
-
-
 .nyt-logo {
-    width: 1500px;
+    width: 1000px;
     position: relative;
-        left: 325px;
+        left: 225px;
 
 
 }
@@ -66,7 +64,7 @@ img{
 .nyt-times-headline-one-text {
     font-size: 30px;
     position: relative;
-        left: 625px;
+        left: 350px;
 
 }
 
@@ -78,7 +76,7 @@ img{
 .nyt-times-headline-two-text {
 font-size: 30px;
     position: relative;
-        left: 625px;
+        left: 350px;
 
 }    
 .nyt-times-headline-three {
@@ -89,7 +87,7 @@ font-size: 30px;
 .nyt-times-headline-three-text {
 font-size: 30px;
     position: relative;
-        left: 625px;
+        left: 350px;
 
 }
 
@@ -101,7 +99,7 @@ font-size: 30px;
 .nyt-times-headline-four-text {
     font-size: 30px;
     position: relative;
-        left: 625px;
+        left: 350px;
 
 }
 .nyt-times-headline-five {
@@ -114,21 +112,22 @@ font-size: 30px;
 .nyt-times-headline-five-text {
     font-size: 30px;
     position: relative;
-        left: 625px;
+        left: 350px;
 
-}
-
-.notesForm{
-    margin-top: 20px;
 }
 
 .info {
-    font-size: 25px;
-    position: relative;
+font-size: 25px;
+position: relative;
     left: 400px;
 
 
 }
+.notesForm{
+    margin-top: 20px;
+}
+
+
 
 .logout{
     margin-top: 10px;
