@@ -1,173 +1,173 @@
 //LOGIN PAGE REACT
 var LogInPage = React.createClass({
-	getInitialState: function() {
-		var cookieCheck;
-		var loggedOutUser;
-		if(document.cookie) {
-			cookieCheck = true;
-			loggedOutUser = false;
-		} else {
-			cookieCheck = '';
-			loggedOutUser = true;
-		}
-		return {
-			authenticatedUser: cookieCheck,
-			loggedOutUser: loggedOutUser
-		};
-	},
+    getInitialState: function() {
+        var cookieCheck;
+        var loggedOutUser;
+        if(document.cookie) {
+            cookieCheck = true;
+            loggedOutUser = false;
+        } else {
+            cookieCheck = '';
+            loggedOutUser = true;
+        }
+        return {
+            authenticatedUser: cookieCheck,
+            loggedOutUser: loggedOutUser
+        };
+    },
 
-	//Change state of login
-	changeLogin: function() {
-		this.setState({
-			authenticatedUser: true,
-			loggedOutUser: false
-		})
-	},
+    //Change state of login
+    changeLogin: function() {
+        this.setState({
+            authenticatedUser: true,
+            loggedOutUser: false
+        })
+    },
 
-	//RENDER 
-	render: function() {
+    //RENDER 
+    render: function() {
 
-		console.log('authenticatedUser: ', this.state.authenticatedUser);
-		console.log('---------------------');
-		console.log('cookie:', document.cookie);
+        console.log('authenticatedUser: ', this.state.authenticatedUser);
+        console.log('---------------------');
+        console.log('cookie:', document.cookie);
 
-		//if authenticated, start using app.
-		if(this.state.authenticatedUser === true) {
-			return (
-				<div>
-				<App />
-				<Logout />
-				</div>
-			)
-		} else {
-			return (
-				<div>
-				<LoginForm initialLoginCheck={this.state.authenticatedUser} onChange={this.changeLogin}/>
-				<SignUpForm />
-				</div>
-			)
-		}
-	}
+        //if authenticated, start using app.
+        if(this.state.authenticatedUser === true) {
+            return (
+                <div>
+                <App />
+                <Logout />
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                <LoginForm initialLoginCheck={this.state.authenticatedUser} onChange={this.changeLogin}/>
+                <SignUpForm />
+                </div>
+            )
+        }
+    }
 });
 
 
 // LoginFormComponent
 var LoginForm = React.createClass({
-	getInitialState: function() {
-		return {
-			username: this.props.initialLoginCheck,
-			password: this.props.initialLoginCheck,
-			loginStatus: this.props.initialLoginCheck
-		};
-	},
-	handleLoginFormChange: function(stateName, e) {
-		var change = {};
-		change[stateName] = e.target.value;
-		this.setState(change);
-	},
-	handleSubmit: function(e) {
-		e.preventDefault();
-		var username = this.state.username.trim();
-		var password = this.state.password.trim();
-		this.loginAJAX(username, password);
-	},
-	loginAJAX: function(username, password) {
-		$.ajax({
-			url: '/auth',
-			method: 'POST',
-			data: {
-				username: username,
-				password: password
-			},
-			success: function(data) {
-				console.log('Cookie');
-				Cookies.set('jwt_token', data.token);
+    getInitialState: function() {
+        return {
+            username: this.props.initialLoginCheck,
+            password: this.props.initialLoginCheck,
+            loginStatus: this.props.initialLoginCheck
+        };
+    },
+    handleLoginFormChange: function(stateName, e) {
+        var change = {};
+        change[stateName] = e.target.value;
+        this.setState(change);
+    },
+    handleSubmit: function(e) {
+        e.preventDefault();
+        var username = this.state.username.trim();
+        var password = this.state.password.trim();
+        this.loginAJAX(username, password);
+    },
+    loginAJAX: function(username, password) {
+        $.ajax({
+            url: '/auth',
+            method: 'POST',
+            data: {
+                username: username,
+                password: password
+            },
+            success: function(data) {
+                console.log('Cookie');
+                Cookies.set('jwt_token', data.token);
         Cookies.set('id', data.id);
-				console.log(data);
-				this.props.onChange(data.token)
-			}.bind(this),
-			error: function(xhr, status, err) {
-				console.error(status, err.toString());
-			}.bind(this)
-		});
-	},
-	render: function() {
-		return (
-			<div className='login-form' >
-				<h3>Please Login</h3>
-				<form onSubmit={this.handleSubmit}>
-					<label htmlFor='username'>Username</label>
-					<input className='username-login-form' type='text' value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
-					<br/>
-					<label htmlFor='password'>Password</label>
-					<input className='password-login-form' type='text' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
-					<br/>
-					<input type='submit'/>
-				</form>
-			</div>
-		)
-	}
+                console.log(data);
+                this.props.onChange(data.token)
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }.bind(this)
+        });
+    },
+    render: function() {
+        return (
+            <div className='login-form' >
+                <h3>Please Login</h3>
+                <form onSubmit={this.handleSubmit}>
+                    <label htmlFor='username'>Username</label>
+                    <input className='username-login-form' type='text' value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
+                    <br/>
+                    <label htmlFor='password'>Password</label>
+                    <input className='password-login-form' type='text' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
+                    <br/>
+                    <input type='submit'/>
+                </form>
+            </div>
+        )
+    }
 })
 
 var SignUpForm = React.createClass({
-	getInitialState: function() {
-		return {
-			username: '',
-			password: '',
-			email: '',
-		};
-	},
-	handleSignUpChange: function(stateName, e) {
-		var change = {};
-		change[stateName] = e.target.value;
-		this.setState(change);
-	},
-	handleSubmit: function(e) {
-		e.preventDefault();
-		var username = this.state.username.trim();
-		var password = this.state.password.trim();
-		var email = this.state.email.trim();
-		this.signupAJAX(username, password, email);
-	},
-	signupAJAX: function(username, password, email) {
-		$.ajax({
-			url: '/users',
-			method: 'POST',
-			data: {
-				username: username,
-				password: password,
-				email: email
-			},
-			success: function(data) {
-				console.log(data.username);
-				if(data){
-					location.reload();
-				}
-			},
-			error: function(xhr, status, err) {
-				console.error(status, err.toString());
-			}
-		});
-	},
-	render: function() {
-		return (
-			<div className='signup-form' >
-				<h3>Please Sign Up</h3>
-				<form onSubmit={this.handleSubmit}>
-					<label htmlFor='username'>Username</label>
-					<input className='username-signup-form' type='text' value={this.state.username} onChange={this.handleSignUpChange.bind(this, 'username')}/>
-					<br/>
-					<label htmlFor='password'>Password</label>
-					<input className='password-signup-form' type='password' value={this.state.password} onChange={this.handleSignUpChange.bind(this, 'password')}/>
-					<br/>
-					<label htmlFor='email'>Email</label>
-					<input className='email-signup-form' type='text' value={this.state.email} onChange={this.handleSignUpChange.bind(this, 'email')}/>
-					<br/>
-					<input type='submit'/>
-				</form>
-			</div>
-		)
-	}
+    getInitialState: function() {
+        return {
+            username: '',
+            password: '',
+            email: '',
+        };
+    },
+    handleSignUpChange: function(stateName, e) {
+        var change = {};
+        change[stateName] = e.target.value;
+        this.setState(change);
+    },
+    handleSubmit: function(e) {
+        e.preventDefault();
+        var username = this.state.username.trim();
+        var password = this.state.password.trim();
+        var email = this.state.email.trim();
+        this.signupAJAX(username, password, email);
+    },
+    signupAJAX: function(username, password, email) {
+        $.ajax({
+            url: '/users',
+            method: 'POST',
+            data: {
+                username: username,
+                password: password,
+                email: email
+            },
+            success: function(data) {
+                console.log(data.username);
+                if(data){
+                    location.reload();
+                }
+            },
+            error: function(xhr, status, err) {
+                console.error(status, err.toString());
+            }
+        });
+    },
+    render: function() {
+        return (
+            <div className='signup-form' >
+                <h3>Please Sign Up</h3>
+                <form onSubmit={this.handleSubmit}>
+                    <label htmlFor='username'>Username</label>
+                    <input className='username-signup-form' type='text' value={this.state.username} onChange={this.handleSignUpChange.bind(this, 'username')}/>
+                    <br/>
+                    <label htmlFor='password'>Password</label>
+                    <input className='password-signup-form' type='password' value={this.state.password} onChange={this.handleSignUpChange.bind(this, 'password')}/>
+                    <br/>
+                    <label htmlFor='email'>Email</label>
+                    <input className='email-signup-form' type='text' value={this.state.email} onChange={this.handleSignUpChange.bind(this, 'email')}/>
+                    <br/>
+                    <input type='submit'/>
+                </form>
+            </div>
+        )
+    }
 
 })
 
@@ -433,7 +433,7 @@ var NotesForm = React.createClass(
         })
     },
     render: function(){
-      if(this.props.notechoose === true){
+      if(this.props.notechoose != null){
         return(
             <form 
                 className="notesForm" 
@@ -530,7 +530,7 @@ var NotesDisplayer = React.createClass({
 var Weather = React.createClass({
   render:function(){
     var data = this.props.weatherdata;
-    console.log(data.name);
+    // console.log(data.name);
     if(this.props.weatherdata === null){
     return(
       null
