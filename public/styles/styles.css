@@ -1,7 +1,10 @@
-
+html{
+    text-align: center;
+}
 body { 
 background-image: url("background.jpeg");
 }
+
 .toggle-page{
     display: block;
     width: 100%;
