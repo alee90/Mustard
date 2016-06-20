@@ -1,3 +1,7 @@
+html{
+    text-align: center;
+}
+
 .api-one { 
     display: inline-block;
     position: relative;
@@ -24,10 +28,15 @@
     position: relative;
 }
 
+body{
+    background-color: papayawhip;
+}
+
 img{
 	height: 155px;
     width: 155px;
 }
+
 .button{ 
 
     color: white;
@@ -109,12 +118,20 @@ font-size: 30px;
 
 }
 
+.notesForm{
+    margin-top: 20px;
+}
+
 .info {
-font-size: 25px;
-position: relative;
+    font-size: 25px;
+    position: relative;
     left: 400px;
 
 
+}
+
+.logout{
+    margin-top: 10px;
 }
 
 .home-button { 
@@ -128,6 +145,5 @@ position: relative;
  }
 
  .toggle-page{
- 	margin-left: 250px;
  	margin-top: 150px;
  }

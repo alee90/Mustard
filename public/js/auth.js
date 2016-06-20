@@ -100,7 +100,7 @@ var LoginForm = React.createClass({
                     <input className='username-login-form' type='text' value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
                     <br/>
                     <label htmlFor='password'>Password</label>
-                    <input className='password-login-form' type='text' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
+                    <input className='password-login-form' type='password' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
                     <br/>
                     <input type='submit'/>
                 </form>
@@ -334,6 +334,7 @@ var Toggle = React.createClass({
   render: function(){
     return(
       <div className="toggle-page">
+            <h1>Mustard</h1>
             <div 
              className="api-one"
              onClick={this.props.handleWeatherAPI}> 
