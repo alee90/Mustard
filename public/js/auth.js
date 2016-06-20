@@ -42,7 +42,7 @@ var LogInPage = React.createClass({
             )
         } else {
             return (
-                <div>
+                <div className="home-page">
                 <LoginForm initialLoginCheck={this.state.authenticatedUser} onChange={this.changeLogin}/>
                 
                 </div>
@@ -107,17 +107,19 @@ var LoginForm = React.createClass({
       if(this.state.create === false){
         return (
             <div className='login-form' >
-                <h3>Please Login</h3>
+                <h1 className="login-text"> Login </h1>
                 <form onSubmit={this.handleSubmit}>
-                    <label htmlFor='username'>Username</label>
-                    <input className='username-login-form' type='text' value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
+                    <input className='username-login-form' type='text' placeholder='Username' value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
                     <br/>
-                    <label htmlFor='password'>Password</label>
-                    <input className='password-login-form' type='password' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
+                    <input className='password-login-form' type='password' placeholder='Password' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
                     <br/>
-                    <input type='submit'/>
+                    <button 
+                    className="login-button"
+                    type='submit'>Login</button>
                 </form>
-                <button onClick={this.showSignupForm}> New User</button>
+                <button
+                 className="new-user-button"
+                 onClick={this.showSignupForm}>New User</button>
             </div>
         )
        }
@@ -125,7 +127,9 @@ var LoginForm = React.createClass({
          return(
           <div>
           <SignUpForm />
-          <button onClick={this.backButton}> Back </button>
+          <button 
+          className="back-button"
+          onClick={this.backButton}> Back </button>
           </div>
           ) 
 
@@ -176,18 +180,18 @@ var SignUpForm = React.createClass({
     render: function() {
         return (
             <div className='signup-form' >
-                <h3>Please Sign Up</h3>
+                <h1 className="login-text">Sign Up</h1>
                 <form onSubmit={this.handleSubmit}>
-                    <label htmlFor='username'>Username</label>
-                    <input className='username-signup-form' type='text' value={this.state.username} onChange={this.handleSignUpChange.bind(this, 'username')}/>
+                    <input className='username-sign-form' type='text' placeholder='Username' value={this.state.username} onChange={this.handleSignUpChange.bind(this, 'username')}/>
                     <br/>
-                    <label htmlFor='password'>Password</label>
-                    <input className='password-signup-form' type='password' value={this.state.password} onChange={this.handleSignUpChange.bind(this, 'password')}/>
+                    <input className='password-sign-form' type='password' placeholder='Password' value={this.state.password} onChange={this.handleSignUpChange.bind(this, 'password')}/>
                     <br/>
-                    <label htmlFor='email'>Email</label>
-                    <input className='email-signup-form' type='text' value={this.state.email} onChange={this.handleSignUpChange.bind(this, 'email')}/>
+                    <input className='email-signup-form' type='text' placeholder='Email' value={this.state.email} onChange={this.handleSignUpChange.bind(this, 'email')}/>
                     <br/>
-                    <input type='submit'/>
+                    <button
+                    className="signup-button" 
+                    type='submit' >Sign up
+                    </button>
                 </form>
             </div>
         )
@@ -556,16 +560,18 @@ var NotesDisplayer = React.createClass({
 var Weather = React.createClass({
   render:function(){
     var data = this.props.weatherdata;
-    // console.log(data.name);
+    // var y = data.main.temp*(9/5)- 459.67;
+    // console.log(y);
     if(this.props.weatherdata === null){
     return(
       null
       )
   }else {
+
     return(
       <div>
         <h1>Place: {data.name}</h1>
-        <h2>Temperature: {data.main.temp}</h2>
+        <h2>Temperature: {(data.main.temp*(9/5)-459.67).toFixed(2)} Degrees</h2>
         <h2>Description: {data.weather[0].description}</h2>
         <h3>{data.main.humidity}% Humidity</h3>
         </div>
