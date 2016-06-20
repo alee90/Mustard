@@ -1,55 +1,133 @@
 .api-one { 
-	display: inline-block;
-	position: relative;
-		left: 270px;
-		top: 250px;
-	height: 200px
-	width: 200px;
-
- }
-
-img{
-	height: 200px
-	width: 200px;
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+ 	text-align: center;
 }
 
+
 .api-two { 
-	
-	display: inline-block; 
-	position: relative;
-		left: 350px;
-		top: 250px;
-
-
-
- }
+    display: inline-block; 
+    margin-right: 10px;
+    position: relative;
+    }
 
  .api-three { 
-	display: inline-block;
-	position: relative;
-		left: 400px;
-		top: 250px;
-	height: 200px
-	width: 200px;
-	
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
 }
 
 
  .notes-button { 
-	display: inline-block;
-	position: relative;
-	left: 500px;
-	top: 250px;
-	height: 200px
-	width: 200px;
+    display: inline-block;
+    position: relative;
 }
 
+img{
+	height: 155px;
+    width: 155px;
+}
 .button{ 
-	color: white;
+
+    color: white;
 
 
  }
 .clicked:focus{ 
-	color: blue;
+    color: blue;
 
+ }
+
+
+.nyt-logo {
+    width: 1500px;
+    position: relative;
+        left: 325px;
+
+
+}
+
+.nyt-times-headline-one {
+    background-color: grey;
+}
+    
+
+
+.nyt-times-headline-one-text {
+    font-size: 30px;
+    position: relative;
+        left: 625px;
+
+}
+
+.nyt-times-headline-two {
+    background-color: lightgrey;
+    
+    }
+
+.nyt-times-headline-two-text {
+font-size: 30px;
+    position: relative;
+        left: 625px;
+
+}    
+.nyt-times-headline-three {
+    background-color: grey;
+    
+}
+
+.nyt-times-headline-three-text {
+font-size: 30px;
+    position: relative;
+        left: 625px;
+
+}
+
+.nyt-times-headline-four {
+    background-color: lightgrey;
+
+}
+
+.nyt-times-headline-four-text {
+    font-size: 30px;
+    position: relative;
+        left: 625px;
+
+}
+.nyt-times-headline-five {
+    background-color: grey;
+    
+
+
+}
+
+.nyt-times-headline-five-text {
+    font-size: 30px;
+    position: relative;
+        left: 625px;
+
+}
+
+.info {
+font-size: 25px;
+position: relative;
+    left: 400px;
+
+
+}
+
+.home-button { 
+    display: block;
+    width: 300px;
+    height: 75px;
+    position: relative;
+    top: 900px;
+    left: 900px;
+
+ }
+
+ .toggle-page{
+ 	margin-left: 250px;
+ 	margin-top: 150px;
  }

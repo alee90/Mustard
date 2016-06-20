@@ -386,8 +386,6 @@ var ApiRender = React.createClass({
 
    <div>
      <button onClick={this.props.Home}> Home</button> 
-  
-
     <div>
       <Weather weatherdata={this.props.weatherAPIChoose} />
       <NYTimes nytdata={this.props.nytAPIChoose} />
@@ -433,7 +431,7 @@ var NotesForm = React.createClass(
         })
     },
     render: function(){
-      if(this.props.notechoose != null){
+      // if(this.props.notechoose != null){
         return(
             <form 
                 className="notesForm" 
@@ -450,10 +448,10 @@ var NotesForm = React.createClass(
                 value="Add!"
                 />
             </form>);
-        }
-     else{
-      return(<div></div>)
-    }
+    //     }
+    //  else{
+    //   return(<div></div>)
+    // }
   }
 });
 
@@ -613,38 +611,44 @@ var NYTimes = React.createClass({
       )
   }else {
     return(
-      <div>
-        <h1>NYT API Chosen</h1>
-        <div onClick={this.handleStoryone}>
-        <h2 className="nyt-times-headline">{this.props.nytdata.results[0].title}</h2>
-        <h4>{this.state.storyone}</h4>
-        <a href ={this.state.urlone}>{this.state.urlone}</a>
-        </div>
+      <div className="nyt-content">
+        <img className="nyt-logo" src="http://www.newspapers.psu.edu/wp-content/uploads/sites/1856/2013/02/NYTLogo.jpg" />
+  
+          <div onClick={this.handleStoryone}
+              className="nyt-times-headline-one">
+          <h2 className="nyt-times-headline-one-text">{this.props.nytdata.results[0].title}</h2>
+          <h4 className="info">{this.state.storyone}</h4>
+          <a href ={this.state.urlone}>{this.state.urlone}</a>
+          </div>
 
-         <div onClick={this.handleStorytwo}>
-        <h2 className="nyt-times-headline">{this.props.nytdata.results[1].title}</h2>
-        <h4>{this.state.storytwo}</h4>
-        <a href ={this.state.urltwo}>{this.state.urltwo}</a>
-        </div>
+           <div onClick={this.handleStorytwo}
+              className="nyt-times-headline-two">
+          <h2 className="nyt-times-headline-two-text">{this.props.nytdata.results[1].title}</h2>
+          <h4 className="info">{this.state.storytwo}</h4>
+          <a href ={this.state.urltwo}>{this.state.urltwo}</a>
+          </div>
 
-         <div onClick={this.handleStorythree}>
-        <h2 className="nyt-times-headline">{this.props.nytdata.results[2].title}</h2>
-          <h4>{this.state.storythree}</h4>
-          <a href ={this.state.urlthree}>{this.state.urlthree}</a>
-        </div>
+           <div onClick={this.handleStorythree}
+                className="nyt-times-headline-three">
+          <h2 className="nyt-times-headline-three-text">{this.props.nytdata.results[2].title}</h2>
+            <h4 className="info">{this.state.storythree}</h4>
+            <a href ={this.state.urlthree}>{this.state.urlthree}</a>
+          </div>
 
-         <div onClick={this.handleStoryfour}>
-        <h2 className="nyt-times-headline">{this.props.nytdata.results[3].title}</h2>
-          <h4>{this.state.storyfour}</h4>
-          <a href ={this.state.urlfour}>{this.state.urlfour}</a>
-        </div>
+           <div onClick={this.handleStoryfour}
+                className="nyt-times-headline-four">
+          <h2 className="nyt-times-headline-four-text">{this.props.nytdata.results[3].title}</h2>
+            <h4 className="info">{this.state.storyfour}</h4>
+            <a href ={this.state.urlfour}>{this.state.urlfour}</a>
+          </div>
 
-         <div onClick={this.handleStoryfive}>
-        <h2 className="nyt-times-headline">{this.props.nytdata.results[4].title}</h2>
-          <h4>{this.state.storyfive}</h4>
-          <a href ={this.state.urlfive}>{this.state.urlfive}</a>
+           <div onClick={this.handleStoryfive}
+                className="nyt-times-headline-five">
+          <h2 className="nyt-times-headline-five-text">{this.props.nytdata.results[4].title}</h2>
+            <h4 className="info">{this.state.storyfive}</h4>
+            <a href ={this.state.urlfive}>{this.state.urlfive}</a>
+  
         </div>
-        
       </div>  
       )
   }
