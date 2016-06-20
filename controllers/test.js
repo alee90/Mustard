@@ -28,7 +28,7 @@ var nytkey = process.env.NYT_KEY;
 
 router.get('/pics/forks', function(req, res){
 	var options = {
-		'url': "https://api.imgur.com/3/gallery/search/?q_exactly=forks",
+		'url': "https://api.imgur.com/3/gallery/search/?q_exactly=fork",
 	  headers: {
     	'Authorization': clientID
   	}
