@@ -198,8 +198,9 @@ var App = React.createClass({
         weatherAPI: null,
         nytAPI: null,
         imgurAPI: null,
+        mainNotes: null,
         choose: false,
-        mainNotes: []
+
          };
   },
   homeButton: function(){
@@ -330,7 +331,7 @@ var App = React.createClass({
             WeatherAPIData={this.getWeatherAPI}
             nytAPIData={this.getnytAPI}
             imgurAPIData={this.getimgurAPI}
-            mainNotes={this.getNotes}
+            mainnote={this.getNotes}
             ApiChoose={this.state}
             Home={this.homeButton}
           />
@@ -416,7 +417,7 @@ var NotesForm = React.createClass(
   {
     getInitialState: function(){
         return {
-            notes:[]
+            notes:''
           };
     },
     handleNoteChange: function(e){
@@ -428,6 +429,7 @@ var NotesForm = React.createClass(
         e.preventDefault();
         console.log(this.state);
         this.props.onSubmit({notes: this.state.notes.trim()});
+        // this.props.notesdata.push(notes);
         this.setState({notes: ''});
         this.appendAJAX(this.state);
 
@@ -440,7 +442,7 @@ var NotesForm = React.createClass(
             data: x
         }).done(function(y){
             console.log('yay');
-            this.setState({notes: y})
+            // this.setState({notes: y})
         })
     },
     render: function(){
@@ -476,28 +478,54 @@ var NotesDisplayer = React.createClass({
     },
     // deleteAJAX: function(id){
     //     console.log('!!==== DELETE NOTES AJAX ====!!');
+    //     var x = id;
     //     $.ajax({
-    //         method: 'DELETE',
-    //         url: '/users/'+identity+'/notes/'+id,
+    //         method: 'GET',
+    //         url: '/users/'+identity+'/notes/'+x,
     //     }).done(function(y){
     //         console.log('yay');
-    //     }).bind(self);
+    //         // this.state.totalNotes.splice(y,1);
+    //     }).bind(this)
     // },
+    deleteAJAX: function(id) {
+      var self = this;
+      var identity = Cookies('id');
+      console.log(id);
+    // var callback = function(x){
+    //   self.handleNotes(x)
+    // };
+      $.ajax({
+          url: '/users/'+identity+'/notes/'+id,
+          method: 'DELETE',
+          success: function(x) {
+            console.log('yay');
+            this.setState({totalNotes: x});
+            location.reload();
+          }.bind(this),
+          error: function(xhr, status, err) {
+              console.error(status, err.toString());
+            }
+      })
+  },
     render: function(){
-      console.log(this.props.notesdata)
+      // console.log(this.props.notesdata)
       var self = this;
       var displayer = this.props.notesdata.map(function(x){
-        var callback = function(){
-          console.log('ur face');
-        // self.deleteAJAX(id);
+          console.log(x._id);
+      console.log(x.notes);
+          var callback = function(e){
+            e.preventDefault();
+            // console.log(x._id);
+            self.deleteAJAX(x._id);
         }
 
         return(
           <div>
-            <h3>{x.notes}</h3>
-            <button 
-            value={x._id}
-            onClick={callback}>del</button>
+            <p>{x.notes}</p>
+            <input
+              type="button"
+              value='Delete'
+              onClick={callback}/>
             </div>
         );
       });
@@ -511,8 +539,8 @@ var NotesDisplayer = React.createClass({
     });
     return(
         <div>
-          {displayer}
-            <p>{displayNote}</p>
+            {displayer}
+            {displayNote}
             <NotesForm onSubmit={this.addNote}/>
         </div>
         );
