@@ -100,7 +100,7 @@ var LoginForm = React.createClass({
                     <input className='username-login-form' type='text' value={this.state.username} onChange={this.handleLoginFormChange.bind(this, 'username')}/>
                     <br/>
                     <label htmlFor='password'>Password</label>
-                    <input className='password-login-form' type='text' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
+                    <input className='password-login-form' type='password' value={this.state.password} onChange={this.handleLoginFormChange.bind(this, 'password')}/>
                     <br/>
                     <input type='submit'/>
                 </form>
@@ -334,6 +334,7 @@ var Toggle = React.createClass({
   render: function(){
     return(
       <div className="toggle-page">
+            <h1>Mustard</h1>
             <div 
              className="api-one"
              onClick={this.props.handleWeatherAPI}> 
@@ -659,28 +660,32 @@ var NYTimes = React.createClass({
 })
 
 var Imgur = React.createClass({
-
   render:function(){
+    console.log(this.props.imgurdata);
       if(this.props.imgurdata === null){
-        // var x = {this.props.imgurdata[0].link}
-    return(
-      null
-      )
-  }else {
-    return(
-      <div>
-        <img src={this.props.imgurdata[1].link}/>
-        <img src={this.props.imgurdata[2].link}/>
-        <img src={this.props.imgurdata[3].link}/>
-        <img src={this.props.imgurdata[4].link}/>
-        <img src={this.props.imgurdata[5].link}/>
-        <img src={this.props.imgurdata[6].link}/>
-      </div>
-      )
-  }
-  }
+        return(
+          null
+        );
+      }
 
-})
+      var images = this.props.imgurdata.map(function(x){
+        if(x.is_album == false){
+        // console.log(x.link);
+        return(
+          <div>
+            <img src={x.link}/>
+          </div>
+          )
+      }
+    })
+      return(
+        <div>
+        {images}
+        </div>
+        )
+    
+    }
+  })
 
 ReactDOM.render(<div><LogInPage/></div>
 , document.getElementById('main-container'));
