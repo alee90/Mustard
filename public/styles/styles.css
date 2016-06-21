@@ -386,7 +386,12 @@ img{
     background-color: gold;
     font-size: 20px;
     margin-right: 5px;
+    margin-top: 15px;
 
+ }
+
+ .notesForm{
+    margin-top: 15px;
  }
 
 .delete-button { 
