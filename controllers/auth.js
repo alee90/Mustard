@@ -7,7 +7,6 @@ var jwt = require('jsonwebtoken');
 // Initialize passport
 router.use(passport.initialize());
 
-// Log in and if successful, send back the token
 router.post('/', passport.authenticate('local', { session: false }), function(req, res, next) {
 	console.log('••••••••••••••••••••••');
 	console.log('LOG IN AS ' + req.user.username );
