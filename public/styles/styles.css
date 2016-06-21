@@ -383,27 +383,31 @@ position: relative;
     }
 
 .note { 
-border: 1px solid black;
-display: inline-block;
-width: 250px;
-height: 250px;
-background-color: gold;
-margin-left: 25px;
-margin-top: 20px;
+    float: left;
+    overflow-x: hidden;
+    border: 1px solid black;
+    display: inline-block;
+    width: 250px;
+    height: 250px;
+    background-color: gold;
+    margin-left: 25px;
+    margin-top: 20px;
+    font-size: 20px;
 
  }
 
 .delete-button { 
-position: relative;
-    bottom: 50px;
-width: 15px;
-height: 15px;
+    position: relative;
+    bottom: 65px;
+    width: 15px;
+    height: 15px;
 
  }
 
 
 
 .home-button {
+    z-index: 1;
     box-shadow: 10px 10px 36px -11px rgba(0,0,0,0.75);
     display: block;
     width: 100px;
