@@ -377,6 +377,7 @@ img{
     }
 
 .note { 
+    word-wrap: break-word;
     float: left;
     overflow-x: hidden;
     border: 1px solid black;

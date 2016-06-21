@@ -62,6 +62,7 @@ var LoginForm = React.createClass({
             create: false
         };
     },
+    //CHANGE STATE OF LOGIN PAGE
     handleLoginFormChange: function(stateName, e) {
         var change = {};
         change[stateName] = e.target.value;
@@ -73,16 +74,19 @@ var LoginForm = React.createClass({
         var password = this.state.password.trim();
         this.loginAJAX(username, password);
     },
+    //DISPLAY SIGNUP FORM
     showSignupForm: function(){
       this.setState({ 
         create: true
       })
     },
+    //DISPLAY BACK BUTTON
      backButton:function(){
       this.setState({
         create: false
       })
     },
+    //CONTACTS AJAX SERVER TO LOCATE USERNAME/PW
     loginAJAX: function(username, password) {
         $.ajax({
             url: '/auth',
@@ -94,7 +98,7 @@ var LoginForm = React.createClass({
             success: function(data) {
                 console.log('Cookie');
                 Cookies.set('jwt_token', data.token);
-        Cookies.set('id', data.id);
+                Cookies.set('id', data.id);
                 console.log(data);
                 this.props.onChange(data.token)
             }.bind(this),
@@ -103,6 +107,7 @@ var LoginForm = React.createClass({
             }.bind(this)
         });
     },
+    //IF CREATE IS FALSE, RENDER LOGIN FORM
     render: function() {
       if(this.state.create === false){
         return (
@@ -122,21 +127,22 @@ var LoginForm = React.createClass({
                  onClick={this.showSignupForm}>New User</button>
             </div>
         )
-       }
+      }
+      //ELSE, RENDER SIGN UP FORM
       else { 
          return(
           <div>
-          <SignUpForm />
-          <button 
-          className="back-button"
-          onClick={this.backButton}> Back </button>
+            <SignUpForm />
+            <button 
+            className="back-button"
+            onClick={this.backButton}> Back </button>
           </div>
           ) 
 
       } 
     }
 })
-
+//RENDER SIGNUP FORM WHEN CALLED UPON, SIMILAR TO LOGIN FORM
 var SignUpForm = React.createClass({
     getInitialState: function() {
         return {
@@ -150,6 +156,7 @@ var SignUpForm = React.createClass({
         change[stateName] = e.target.value;
         this.setState(change);
     },
+    //REQUIRE EMAIL
     handleSubmit: function(e) {
         e.preventDefault();
         var username = this.state.username.trim();
@@ -157,6 +164,7 @@ var SignUpForm = React.createClass({
         var email = this.state.email.trim();
         this.signupAJAX(username, password, email);
     },
+    //POSTS NEW USER DATA TO GET READY FOR SIGNIN
     signupAJAX: function(username, password, email) {
         $.ajax({
             url: '/users',
@@ -177,6 +185,7 @@ var SignUpForm = React.createClass({
             }
         });
     },
+    //RENDER SIGNUP FORM
     render: function() {
         return (
             <div className='signup-form' >
@@ -198,22 +207,22 @@ var SignUpForm = React.createClass({
     }
 
 })
-
+//RENDER LOGOUT BUTTON
 var Logout = React.createClass({
     handleClick: function() {
-        console.log('working button');
-        Cookies.remove("jwt_token");
-        Cookies.remove('id');
-        window.location = '/';
-
+      //DELETE TOKEN/ID
+      console.log('working button');
+      Cookies.remove("jwt_token");
+      Cookies.remove('id');
+      location.reload();
     },
     render: function() {
         return(
-            <div>
-                <button className='logout' onClick={this.handleClick}>LOGOUT</button>
-            </div>
+          <div>
+            <button className='logout' 
+            onClick={this.handleClick}>LOGOUT</button>
+          </div>
         )
-
     }
 })
 
@@ -229,6 +238,7 @@ var App = React.createClass({
 
          };
   },
+  //WHEN HOME BUTTON PRESSED, RESET ALL API'S TO NULL/EMPTY ARRAY (I DON'T KNOW WHY THIS WORKS)
   homeButton: function(){
     this.setState({
       weatherAPI: null,
@@ -238,6 +248,7 @@ var App = React.createClass({
         choose: false
     })
   },
+  //AJAX RESULTS SETSTATE FOR NOTES
   handleNotes: function(x) {
     this.setState({
       notesAPI: x,
@@ -245,33 +256,31 @@ var App = React.createClass({
 
     })
   },
+  //AJAX RESULTS SETSTATE FOR WEATHER
   handleWeatherAPI: function(data) {
-    // this.getWeatherAPI();
     this.setState({
       weatherAPI: data,
       choose: true
     })
   },
+  //AJAX RESULTS SETSTATE FOR NYT
   handlenytAPI: function(data) {
-    // this.getnytAPI();
     this.setState({
       nytAPI: data,
       choose: true
     })
   },
+  //AJAX RESULTS SETSTATE FOR IMGUR
   handleimgurAPI: function(x) {
-    // this.getimgurAPI();
      this.setState({
       imgurAPI: x,
       choose: true
     })
   },
+  //AJAX CALL TO BACKEND SERVER TO GET NOTES
   getNotes:function(data) {
     var self = this;
     var identity = Cookies('id');
-    // var callback = function(x){
-    //   self.handleNotes(x)
-    // };
     $.ajax({
         url: "/users/"+identity+'/notes',
         method: 'GET',
@@ -284,9 +293,10 @@ var App = React.createClass({
           }
     })
   },
+  //AJAX CALL TO BACKEND SERVER TO GET WEATHER DATA
   getWeatherAPI:function(data) {
     $.ajax({
-          url: "/test/weather/",
+        url: "/test/weather/",
         method: 'GET',
         success: function(data) {
           console.log(data);
@@ -297,6 +307,7 @@ var App = React.createClass({
           }
     })
   },
+  //AJAX CALL TO BACKEND SERVER TO GET NYT HEADLINES
   getnytAPI:function(data) {
     $.ajax({
         url: '/test',
@@ -309,6 +320,7 @@ var App = React.createClass({
           }
     })
   },
+  //AJAX CALL TO BACKEND CALL TO GET IMGUR DATA
   getimgurAPI:function() {
     $.ajax({
         url: '/test/pics/forks',
@@ -324,7 +336,7 @@ var App = React.createClass({
 
   },
 
-  //Render 
+  //RENDER
   render: function() {
     // console.log('---------------------');
     if(this.state.choose == false) {
@@ -359,7 +371,7 @@ var App = React.createClass({
 });
 
 
-
+//RENDER TOGGLE BUTTONS FOR API CALLS
 var Toggle = React.createClass({
   render: function(){
     return(
@@ -368,37 +380,23 @@ var Toggle = React.createClass({
             <div 
              className="api-one"
              onClick={this.props.handleWeatherAPI}> 
-          
              <img src= "https://cdn.downdetector.com/static/uploads/c/300/f5071/weather_channel.png" /> 
-        
-
              </div>
-
             <div 
              className="api-two"
              onClick={this.props.handlenytAPI}> 
-        
              <img src= "http://14575-presscdn-0-73.pagely.netdna-cdn.com/wp-content/uploads/2015/11/New-York-Times-logo.jpg" />
-          
              </div>
-
             <div 
              className="api-three"
              onClick={this.props.handleimgurAPI}>
-            
              <img src= "http://assets.materialup.com/uploads/a7ab3d40-0001-4ca9-b37d-cf9a6eff969c/teaser.png" />
-        
              </div>
-
              <div className="notes-button"
               onClick={this.props.handleNotes}>
-        
                <img src ="http://www.t-gaap.com/sites/www.t-gaap.com/assets/images/notes.jpg?1349118446" />
-            
              </div>
-
         </div> 
-
         )
   }
 
@@ -407,14 +405,13 @@ var Toggle = React.createClass({
 var identity = Cookies('id');
 console.log(identity);
 
-
+//RENDER API DATA AFTER CLICK
 var ApiRender = React.createClass({
   render: function(){ 
   // console.log(this.props.WeatherAPIData);
   // console.log(this.props.nytAPIData);
   // console.log(this.props.imgurAPIData);
   return(
-
    <div>
      <button 
      className="home-button"
@@ -431,148 +428,10 @@ var ApiRender = React.createClass({
   }
 })
 
-
-
-//APPEND NOTES
-var NotesDisplayer = React.createClass({
-    getInitialState: function(){
-        return {
-          totalNotes: [],
-
-        };
-    },
-    addNote(note){
-        var createNotes = this.state.totalNotes.concat();
-        createNotes.push(note);
-        this.setState({
-          totalNotes: createNotes,
-        });
-    },
-    deleteAJAX: function(id) {
-      var self = this;
-      var identity = Cookies('id');
-      console.log(id);
-      $.ajax({
-          url: '/users/'+identity+'/notes/'+id,
-          method: 'DELETE',
-          success: function(x) {
-            console.log('yay');
-            this.setState({
-              totalNotes: x,
-            });
-            location.reload();
-          }.bind(this),
-          error: function(xhr, status, err) {
-              console.error(status, err.toString());
-            }
-      })
-  },
-    render: function(){
-      // console.log(this.props.notesdata)
-      var self = this;
-      var displayer = this.props.notesdata.map(function(x){
-          console.log(x._id);
-      console.log(x.notes);
-          var callback = function(e){
-            e.preventDefault();
-            // console.log(x._id);
-            self.deleteAJAX(x._id);
-        }
-        return(
-          <div className='note'>
-           <p>{x.notes}</p>
-            <img className='delete-button'
-           		onClick={callback}
-            	src="http://www.homeadvisor.com/r/wp-content/uploads/2016/01/x.png" />
-            </div>
-        );
-      });
-
-      var displayNote = this.state.totalNotes.map(function(note){
-        console.log(note);
-        return(
-            <div>
-            	<p className='note'>{note.notes}</p>
-            </div>
-          );
-
-    });
-    return(
-        <div>
-            {displayer}
-            {displayNote}
-            <NotesForm 
-            onSubmit={this.addNote}/>
-        </div>
-        );  
-    }
-});
-
-var NotesForm = React.createClass(
-  {
-    getInitialState: function(){
-        return {
-            notes:''
-          };
-    },
-    handleNoteChange: function(e){
-          console.log(e.target.value);
-          this.setState({notes: e.target.value});
-    },
-    handleSubmit: function(e){
-        console.log('!!==== NOTES SUBMISSION ====!!');
-        e.preventDefault();
-        console.log(this.state);
-        this.props.onSubmit({notes: this.state.notes.trim()});
-        // this.props.notesdata.push(notes);
-        this.setState({notes: ''});
-        this.appendAJAX(this.state);
-
-    },
-    appendAJAX: function(x){
-        console.log('!!==== ADD NOTES AJAX ====!!');
-        $.ajax({
-            method: 'POST',
-            url: '/users/'+identity+'/notes',
-            data: x
-        }).done(function(y){
-            console.log('yay');
-            // this.setState({notes: y})
-        })
-    },
-    render: function(){
-      // if(this.props.notechoose !== null){
-        return(
-            <form 
-              onSubmit={this.handleSubmit} 
-                >
-            <input 
-              className='note'
-                type="text"
-                placeholder="To do?"
-                value={this.state.notes}
-                onChange={this.handleNoteChange}
-                />
-            <input
-                type="submit" 
-                value="Add!"
-                />
-            </form>);
-        // }
-    //  else{
-    //   return(<div></div>)
-    // }
-  }
-});
-
-
-
-
+//PASSING WEATHER API PROPS TO API RENDER 'SHOW' 
 var Weather = React.createClass({
   render:function(){
     var data = this.props.weatherdata;
-    // var y = data.main.temp*(9/5)- 459.67;
-    // console.log(y);
     if(this.props.weatherdata === null){
     return(
       null
@@ -594,7 +453,7 @@ var Weather = React.createClass({
 
 });
 
-
+//NYT RENDER, GET STORIES TO DISPLAY DATA
 var NYTimes = React.createClass({
   getInitialState:function(){
     return{
@@ -666,6 +525,7 @@ var NYTimes = React.createClass({
       )
   }else {
     return(
+      //RENDER NYT STORIES
       <div className="nyt-content">
         <img className="nyt-logo" src="http://www.newspapers.psu.edu/wp-content/uploads/sites/1856/2013/02/NYTLogo.jpg" />
   
@@ -711,6 +571,142 @@ var NYTimes = React.createClass({
 
 })
 
+//NOTE FORM RENDER
+var NotesForm = React.createClass(
+  {
+    getInitialState: function(){
+        return {
+            notes:''
+          };
+    },
+    //PREPARES SETSTATE TO WHAT'S TYPED IN INPUT
+    handleNoteChange: function(e){
+          console.log(e.target.value);
+          this.setState({notes: e.target.value});
+          // this.setState({notes: y});
+    },
+    //SET STATE WHEN ONCLICKED
+    handleSubmit: function(e){
+        console.log('!!==== NOTES SUBMISSION ====!!');
+        e.preventDefault();
+        console.log(this.state);
+        this.props.onSubmit({notes: this.state.notes.trim()});
+        // this.props.notesdata.push(notes);
+        this.setState({notes: ''});
+        this.appendAJAX(this.state);
+
+    },
+    //POST REQUEST TO CREATE NEW NOTE
+    appendAJAX: function(x){
+        console.log('!!==== ADD NOTES AJAX ====!!');
+        $.ajax({
+            method: 'POST',
+            url: '/users/'+identity+'/notes',
+            data: x
+        }).done(function(y){
+            console.log('yay');
+            // this.handleNoteChange(y);
+        })
+    },
+    render: function(){
+      // if(this.props.notechoose !== null){
+        return(
+            <form 
+              onSubmit={this.handleSubmit} 
+                >
+            <textarea 
+              className='note'
+                type="text"
+                placeholder="To do?"
+                value={this.state.notes}
+                onChange={this.handleNoteChange}
+                />
+            <input
+                type="submit" 
+                value="Add!"
+                />
+            </form>);
+  }
+});
+//APPEND NOTES
+var NotesDisplayer = React.createClass({
+    getInitialState: function(){
+        return {
+          totalNotes: [],
+        };
+    },
+    addNote(note){
+        var createNotes = this.state.totalNotes.concat();
+        createNotes.push(note);
+        this.setState({
+          totalNotes: createNotes,
+        });
+    },
+    //DELETE FUNCTION, BUT HAVING TROUBLE RERENDERING PAGE AFTER DELETE
+    deleteAJAX: function(id) {
+      var self = this;
+      var identity = Cookies('id');
+      console.log(id);
+      $.ajax({
+          url: '/users/'+identity+'/notes/'+id,
+          method: 'DELETE',
+          success: function(x) {
+            console.log(x);
+            var y = this.props.notesdata.splice(x, 1);
+            this.setState({
+              totaNotes: y,
+            });
+          }.bind(this),
+          error: function(xhr, status, err) {
+              console.error(status, err.toString());
+            }
+      })
+  },
+    //RENDER USING NOTESDATA AS MAP
+    render: function(){
+      // console.log(this.props.notesdata)
+      var self = this;
+      //MAPS THROUGH PROPS DATA TO DISPLAY DB DATA
+      var displayer = this.props.notesdata.map(function(x){
+          console.log(x._id);
+      console.log(x.notes);
+          var callback = function(e){
+            e.preventDefault();
+            // console.log(x._id);
+            self.deleteAJAX(x._id);
+        }
+        return(
+          <div className='note'>
+           <p>{x.notes}</p>
+            <img className='delete-button'
+              onClick={callback}
+              src="http://www.homeadvisor.com/r/wp-content/uploads/2016/01/x.png" />
+            </div>
+        );
+      });
+      //MAPS THROUGH TOTALNOTES (LOCAL)
+      var displayNote = this.state.totalNotes.map(function(note){
+        console.log(note);
+        return(
+            <div>
+              <p className='note'>{note.notes}</p>
+            </div>
+          );
+
+    });
+      //DISPLAYS NOTES AND APPENDED NOTES WHILE KEEPING FORM SUBMISSION WHEN WE ARE ON NOTES API
+    return(
+        <div>
+            {displayer}
+            {displayNote}
+            <NotesForm 
+            onSubmit={this.addNote}/>
+        </div>
+        );  
+    }
+});
+
+//IMGUR RENDER API
 var Imgur = React.createClass({
   render:function(){
     console.log(this.props.imgurdata);
@@ -719,12 +715,11 @@ var Imgur = React.createClass({
           null
         );
       }
-
+      //MAPS THROUGH AJAX SAVED DATA
       var images = this.props.imgurdata.map(function(x){
         if(x.is_album == false){
         // console.log(x.link);
         return(
-
           <div>
             <img className="imgur-pictures" src={x.link}/>
           </div>
@@ -733,15 +728,14 @@ var Imgur = React.createClass({
     })
       return(
         <div>
-        <div>
+          <div>
               <h1 className="imgur-title">Top Memes for Today</h1>
-        </div>
-        <div className="imgur-pictures-div">
-        {images}
-        </div>
+          </div>
+          <div className="imgur-pictures-div">
+            {images}
+          </div>
         </div>
         )
-    
     }
   })
 
