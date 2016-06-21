@@ -431,62 +431,7 @@ var ApiRender = React.createClass({
   }
 })
 
-var NotesForm = React.createClass(
-  {
-    getInitialState: function(){
-        return {
-            notes:''
-          };
-    },
-    handleNoteChange: function(e){
-          console.log(e.target.value);
-          this.setState({notes: e.target.value});
-    },
-    handleSubmit: function(e){
-        console.log('!!==== NOTES SUBMISSION ====!!');
-        e.preventDefault();
-        console.log(this.state);
-        this.props.onSubmit({notes: this.state.notes.trim()});
-        // this.props.notesdata.push(notes);
-        this.setState({notes: ''});
-        this.appendAJAX(this.state);
 
-    },
-    appendAJAX: function(x){
-        console.log('!!==== ADD NOTES AJAX ====!!');
-        $.ajax({
-            method: 'POST',
-            url: '/users/'+identity+'/notes',
-            data: x
-        }).done(function(y){
-            console.log('yay');
-            // this.setState({notes: y})
-        })
-    },
-    render: function(){
-      // if(this.props.notechoose != null){
-        return(
-            <form 
-              onSubmit={this.handleSubmit} 
-                >
-            <input 
-            	className='note'
-                type="text"
-                placeholder="To do?"
-                value={this.state.notes}
-                onChange={this.handleNoteChange}
-                />
-            <input
-                type="submit" 
-                value="Add!"
-                />
-            </form>);
-    //     }
-    //  else{
-    //   return(<div></div>)
-    // }
-  }
-});
 
 //APPEND NOTES
 var NotesDisplayer = React.createClass({
@@ -563,7 +508,62 @@ var NotesDisplayer = React.createClass({
     }
 });
 
+var NotesForm = React.createClass(
+  {
+    getInitialState: function(){
+        return {
+            notes:''
+          };
+    },
+    handleNoteChange: function(e){
+          console.log(e.target.value);
+          this.setState({notes: e.target.value});
+    },
+    handleSubmit: function(e){
+        console.log('!!==== NOTES SUBMISSION ====!!');
+        e.preventDefault();
+        console.log(this.state);
+        this.props.onSubmit({notes: this.state.notes.trim()});
+        // this.props.notesdata.push(notes);
+        this.setState({notes: ''});
+        this.appendAJAX(this.state);
 
+    },
+    appendAJAX: function(x){
+        console.log('!!==== ADD NOTES AJAX ====!!');
+        $.ajax({
+            method: 'POST',
+            url: '/users/'+identity+'/notes',
+            data: x
+        }).done(function(y){
+            console.log('yay');
+            // this.setState({notes: y})
+        })
+    },
+    render: function(){
+      // if(this.props.notechoose !== null){
+        return(
+            <form 
+              onSubmit={this.handleSubmit} 
+                >
+            <input 
+              className='note'
+                type="text"
+                placeholder="To do?"
+                value={this.state.notes}
+                onChange={this.handleNoteChange}
+                />
+            <input
+                type="submit" 
+                value="Add!"
+                />
+            </form>);
+        // }
+    //  else{
+    //   return(<div></div>)
+    // }
+  }
+});
 
 
 
