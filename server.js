@@ -27,8 +27,8 @@ app.use(cookieParser());
 
 
 //DATABASE
-var db = process.env.MONGODB_URI || 'mongodb://localhost/mustard_app';
-mongoose.connect(db);
+var mongoUri = process.env.MONGODB_URI || 'mongodb://localhost/mustard_app';
+mongoose.connect(mongoUri);
 
 
 //CONTROLLERS
