@@ -73,7 +73,7 @@ router.get('/pics/forks', function(req, res){
 
 router.get('/time', function(req, res){
 	var options = {
-		'url': "http://worldclockapi.com/api/json/est/now"
+		'url': "https://worldclockapi.com/api/json/est/now"
 	};
 	request(options, function (error, response, body) {
 		if(!error && response.statusCode == 200){

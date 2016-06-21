@@ -491,12 +491,17 @@ var NotesForm = React.createClass(
 //APPEND NOTES
 var NotesDisplayer = React.createClass({
     getInitialState: function(){
-        return {totalNotes: []};
+        return {
+          totalNotes: [],
+
+        };
     },
     addNote(note){
         var createNotes = this.state.totalNotes.concat();
         createNotes.push(note);
-        this.setState({totalNotes: createNotes});
+        this.setState({
+          totalNotes: createNotes,
+        });
     },
     deleteAJAX: function(id) {
       var self = this;
@@ -507,7 +512,9 @@ var NotesDisplayer = React.createClass({
           method: 'DELETE',
           success: function(x) {
             console.log('yay');
-            this.setState({totalNotes: x});
+            this.setState({
+              totalNotes: x,
+            });
             location.reload();
           }.bind(this),
           error: function(xhr, status, err) {
@@ -526,7 +533,6 @@ var NotesDisplayer = React.createClass({
             // console.log(x._id);
             self.deleteAJAX(x._id);
         }
-
         return(
           <div className='note'>
            <p>{x.notes}</p>
@@ -544,6 +550,7 @@ var NotesDisplayer = React.createClass({
             	<p className='note'>{note.notes}</p>
             </div>
           );
+
     });
     return(
         <div>
@@ -552,9 +559,12 @@ var NotesDisplayer = React.createClass({
             <NotesForm 
             onSubmit={this.addNote}/>
         </div>
-        );
+        );  
     }
 });
+
+
+
 
 
 
@@ -625,6 +635,14 @@ var NYTimes = React.createClass({
       urlthree: URlthree
     })
   },
+   hideStorythree: function() {
+    var abstractthree = this.props.nytdata.results[2].abstract;
+    var URlthree = this.props.nytdata.results[2].short_url;
+    this.setState({
+      storythree: null,
+      urlthree: " "
+    })
+  },
   handleStoryfour: function() {
     var abstractfour = this.props.nytdata.results[3].abstract;
     var URlfour = this.props.nytdata.results[3].short_url;
@@ -655,7 +673,7 @@ var NYTimes = React.createClass({
               className="nyt-times-headline-one">
           <h2 className="nyt-times-headline-one-text">{this.props.nytdata.results[0].title}</h2>
           <h4 className="info">{this.state.storyone}</h4>
-          <a href ={this.state.urlone}>{this.state.urlone}</a>
+          <a className="link" href ={this.state.urlone}>{this.state.urlone}</a>
           </div>
 
            <div onClick={this.handleStorytwo}
@@ -668,7 +686,7 @@ var NYTimes = React.createClass({
            <div onClick={this.handleStorythree}
                 className="nyt-times-headline-three">
           <h2 className="nyt-times-headline-three-text">{this.props.nytdata.results[2].title}</h2>
-            <h4 className="info">{this.state.storythree}</h4>
+            <h4 onClick={this.hideStorythree}>{this.state.storythree}</h4>
             <a href ={this.state.urlthree}>{this.state.urlthree}</a>
           </div>
 

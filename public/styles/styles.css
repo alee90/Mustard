@@ -1,7 +1,7 @@
 
 
 body { 
-background-image: url("background.jpeg");
+background: url('bg2.jpg') repeat;
 font-family: 'Ubuntu', sans-serif;
 
 }
@@ -233,24 +233,23 @@ html, body {
 
 
 .weather-data-container {
-width: 1000px;
-height: 1000px; 
-display: inline-block;
-background-image: url("http://www.hurryuppleaseitstime.com/wp-content/uploads/2011/04/Hill-sunny-day.gif");
-position: relative;
-    left: 200px;
+    width: 1000px;
+    height: 1000px;
+    display: inline-block;
+    background-image: url("http://www.hurryuppleaseitstime.com/wp-content/uploads/2011/04/Hill-sunny-day.gif");
+    position: relative;
 
  }
+
 .weather-data { 
-text-align: center;
-width: 400px;
-height: 275px; 
-display: inline-block;
-background-color: white;
-position: relative;
+    text-align: center;
+    width: 400px;
+    height: 275px; 
+    display: inline-block;
+    background-color: white;
+    position: relative;
     top: 200px;
     left: 310px;
-
  }
 
 
@@ -276,6 +275,7 @@ img{
 
 .nyt-times-headline-one {
     background-color: grey;
+    text-align: center;
 }
     
 
@@ -289,7 +289,7 @@ img{
 
 .nyt-times-headline-two {
     background-color: lightgrey;
-    
+    text-align: center;
     }
 
 .nyt-times-headline-two-text {
@@ -299,6 +299,7 @@ img{
 }    
 .nyt-times-headline-three {
     background-color: grey;
+    text-align: center;
     
 }
 
@@ -311,6 +312,7 @@ img{
 
 .nyt-times-headline-four {
     background-color: lightgrey;
+    text-align: center;
 
 }
 
@@ -322,6 +324,7 @@ img{
 }
 .nyt-times-headline-five {
     background-color: grey;
+    text-align: center;
 }
 
 .nyt-times-headline-five-text {
@@ -335,6 +338,11 @@ text-align: center;
 font-size: 20px;
 position: relative;
 }
+
+.link { 
+
+    text-align: center;
+ }
 
 .notesForm{
     margin-top: 20px;
