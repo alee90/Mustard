@@ -5,9 +5,14 @@ $(document).ready(function(){
       url:'test/time',
       method:'GET',
       success: function(data){
-        console.log(data.currentDateTime)
+        // console.log(data.currentDateTime)
+        console.log(data)
         var x = data.currentDateTime;
-        appendClock(x);
+        var z = new Date(x).toString();
+        console.log(z);
+        var y = data.dayOfTheWeek;
+        console.log(y)
+        appendClock(z);
       },
       error: function(xhr,status,err){
         console.error(status, err.toString());
@@ -16,10 +21,10 @@ $(document).ready(function(){
   }
   clock();	
 
-  var appendClock = function(x){
-  	console.log(x);
+  var appendClock = function(z){
+  	// console.log(x);
   	var $clockdiv = $('#clock')
-  	$clockdiv.append('<p>'+x+'</p>');
+  	$clockdiv.append('<p class="timeDisplay">'+z+'</p>');
   }
 
 

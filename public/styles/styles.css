@@ -7,15 +7,24 @@ font-family: 'Ubuntu', sans-serif;
 }
 
 #clock{
+    display: inline-block;
+    background-color: rgba(255, 239, 213, 0.75);
+    border: 3px solid black;
     float: right;
 }
 
+.timeDisplay { 
+font-size: 15px;
+font-family: 'Orbitron', sans-serif;
+
+
+ }
 
 .toggle-header {
-font-size: 40px;
+font-size: 2.500em;
 text-align: center;
 position: relative;
-    top: 150px;
+    top: 1.5em;
  }
 
 .login-form { 
@@ -26,7 +35,7 @@ box-shadow: 10px 10px 36px -11px rgba(0,0,0,0.75);
 background-color: rgba(255, 239, 213, 0.75);
 border: 2px solid black;
 position: relative;
-    left: 420px;
+    left: 21.5em;
     top: 170px;
 
  }
@@ -40,7 +49,7 @@ box-shadow: 10px 10px 36px -11px rgba(0,0,0,0.75);
 background-color: rgba(255, 239, 213, 0.75);
 border: 2px solid black;
 position: relative;
-    left: 420px;
+    left: 21.5em;
     top: 170px;
 
 } 
@@ -139,8 +148,8 @@ height: 150px;
     width: 150px;
     height: 30px;
     position: absolute;
-    left: 750px;
-    top: 441px;
+    left: 60em;
+    top: 39.25em;
     z-index: +2;
 }
 
@@ -185,7 +194,7 @@ html, body {
     display: inline-block;
     position: relative;
     top : 225px;
-    left: 360px;
+    left: 17em;
 }
 
 #main-container{
@@ -199,7 +208,7 @@ html, body {
     margin-right: 10px;
     position: relative;
         top : 225px;
-        left: 370px;
+        left: 19em;
     }
 
  .api-three { 
@@ -209,7 +218,7 @@ html, body {
     margin-right: 10px;
     position: relative;
         top : 225px;
-        left: 380px;
+        left: 20em;
 }
 
 
@@ -219,7 +228,7 @@ html, body {
     display: inline-block;
     position: relative;
         top : 225px;
-        left: 390px;
+        left: 22em;
 }
 
 
@@ -362,8 +371,8 @@ position: relative;
     width: 100px;
     height: 30px;
     position: absolute;
-        bottom: 680px;
-}
+    top: 1em;
+    }
 
 .note { 
 border: 1px solid black;
@@ -392,6 +401,7 @@ height: 15px;
     width: 100px;
     height: 30px;
     position: relative;
+    top: 1em;
     left: 110px;
 
  }
