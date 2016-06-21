@@ -1,4 +1,29 @@
 
+$(document).ready(function(){
+  var clock = function(){
+    $.ajax({
+      url:'test/time',
+      method:'GET',
+      success: function(data){
+        console.log(data.currentDateTime)
+        var x = data.currentDateTime;
+        appendClock(x);
+      },
+      error: function(xhr,status,err){
+        console.error(status, err.toString());
+      }
+    })
+  }
+  clock();	
+
+  var appendClock = function(x){
+  	console.log(x);
+  	var $clockdiv = $('#clock')
+  	$clockdiv.append('<p>'+x+'</p>');
+  }
+
+
+  });
 ///Main component
 //AUTH0 COMPONENT
 // var App = React.createClass({

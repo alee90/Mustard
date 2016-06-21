@@ -1,3 +1,47 @@
+// $(document).ready(function(){
+//   var clock = function(){
+//     $.ajax({
+//       url:'test/time',
+//       method:'GET',
+//       success: function(data){
+//         console.log(data.currentDateTime)
+//         var x = data.currentDateTime;
+//         // appendClock(x);
+//       },
+//       error: function(xhr,status,err){
+//         console.error(status, err.toString());
+//       }
+//     })
+//   }
+
+//   // function appendClock(x){
+//   //   var $time = $('#clock');
+//   //   $time.append(x);
+//   // }
+
+
+
+
+// });
+
+
+  //   getTimeAPI:function(){
+  //    $.ajax({
+  //       url:'test/time',
+  //       method: 'GET',
+  //       success: function(data) {
+  //         // console.log(data.currentDateTime);
+  //         var x = data.currentDateTime;
+  //         console.log(x);
+  //         this.handleTimeAPI(x);
+  //     }.bind(this),
+  //       error: function(xhr, status, err) {
+  //           console.error(status, err.toString());
+  //         }
+  //     })
+  // },
+
+
 //LOGIN PAGE REACT
 var LogInPage = React.createClass({
     getInitialState: function() {
@@ -12,7 +56,8 @@ var LogInPage = React.createClass({
         }
         return {
             authenticatedUser: cookieCheck,
-            loggedOutUser: loggedOutUser
+            loggedOutUser: loggedOutUser,
+            time: null
         };
     },
 
@@ -23,11 +68,16 @@ var LogInPage = React.createClass({
             loggedOutUser: false
         })
     },
+    // handleTimeAPI:function(x){
+    // this.setState({
+    //   timeAPI: x
+    //   })
+    // },
 
 
     //RENDER 
     render: function() {
-
+        // this.getTimeAPI();
         console.log('authenticatedUser: ', this.state.authenticatedUser);
         console.log('---------------------');
         console.log('cookie:', document.cookie);
@@ -43,14 +93,22 @@ var LogInPage = React.createClass({
         } else {
             return (
                 <div className="home-page">
-                <LoginForm initialLoginCheck={this.state.authenticatedUser} onChange={this.changeLogin}/>
-                
+                  <LoginForm initialLoginCheck={this.state.authenticatedUser} onChange={this.changeLogin}/>
                 </div>
             )
         }
     }
 });
 
+// var Clock = React.createClass({
+//   render:function(){
+//     return(
+//      <div> 
+//       <p>{this.props.time}</p>
+//      </div> 
+//       )
+//     }
+//   })
 
 // LoginFormComponent
 var LoginForm = React.createClass({
@@ -103,7 +161,31 @@ var LoginForm = React.createClass({
             }.bind(this)
         });
     },
+  //   handleTimeAPI:function(x){
+  //   this.setState({
+  //     timeAPI: x
+  //   })
+  // },
+  // getTimeAPI:function(){
+  //    $.ajax({
+  //         url:'test/time',
+  //       method: 'GET',
+  //       success: function(data) {
+  //         // console.log(data.currentDateTime);
+  //         var x = data.currentDateTime;
+  //         console.log(x);
+  //         this.handleTimeAPI(x);
+  //     }.bind(this),
+  //       error: function(xhr, status, err) {
+  //           console.error(status, err.toString());
+  //         }
+  //     })
+  // },
+
     render: function() {
+      var callback = function(){
+        // this.getTimeAPI();
+      }
       if(this.state.create === false){
         return (
             <div className='login-form' >
@@ -115,7 +197,8 @@ var LoginForm = React.createClass({
                     <br/>
                     <button 
                     className="login-button"
-                    type='submit'>Login</button>
+                    type='submit'
+                    onClick={callback}>Login</button>
                 </form>
                 <button
                  className="new-user-button"
@@ -136,6 +219,17 @@ var LoginForm = React.createClass({
       } 
     }
 })
+
+// var Clock = React.createClass({
+//   render:function(){
+//     return(
+//      <div> 
+//       <p>{this.props.time}</p>
+//      </div> 
+//       )
+//     }
+//   })
+
 
 var SignUpForm = React.createClass({
     getInitialState: function() {
@@ -224,6 +318,7 @@ var App = React.createClass({
         nytAPI: null,
         imgurAPI: null,
         notesAPI: [],
+        timeAPI: null,
         choose: false,
 
          };
@@ -355,7 +450,6 @@ var App = React.createClass({
     }
   }
 });
-
 
 
 var Toggle = React.createClass({
